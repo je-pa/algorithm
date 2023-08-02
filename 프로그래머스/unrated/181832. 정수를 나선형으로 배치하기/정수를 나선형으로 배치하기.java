@@ -6,7 +6,7 @@ class Solution {
         int[][] d = {{0,1},{1,0},{0,-1},{-1,0}};
         int cd = 0;
         while(i<n*n+1){
-            arr[x][y] = i;
+            arr[x][y] = i++;
             
             int cdx = d[cd][0];
             int cdy = d[cd][1];
@@ -15,7 +15,6 @@ class Solution {
             }
             x += d[cd][0];
             y += d[cd][1];
-            i++;
         }
         return arr;
     }
