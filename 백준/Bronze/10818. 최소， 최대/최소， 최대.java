@@ -1,16 +1,17 @@
 import java.util.*;
-
+import java.io.*;
 class Main{
-    public static void main(String[] args){
-        Scanner scan = new Scanner(System.in);
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
         int max = -1_000_000;
         int min = 1_000_000;
-        int n = scan.nextInt();
+        
         for(int i = 0 ; i < n ; i++)
         {
-            int x= scan.nextInt();
-            max = Math.max(max, x);
-            min = Math.min(min, x);
+            max = Math.max(max, arr[i]);
+            min = Math.min(min, arr[i]);
         }
         System.out.println(min + " " + max);
     }
