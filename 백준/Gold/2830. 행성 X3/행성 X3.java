@@ -19,7 +19,7 @@ public class Main {
             int count1 = 0;
             for(int i=0; i <arr.length ;i++){
                 if(arr[i] == 0)continue;
-                if((arr[i] & (1 << k)) > 0) count1++;
+                if((arr[i] & (1 << k)) == 0) count1++;
             }
             answer += (1L << k) * count1 * (n - count1);
             max/=2;
