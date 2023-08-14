@@ -7,5 +7,3 @@ class Solution {
         return Integer.parseInt(s);
     }
 }
-
-// z , o, t2, f2, s2, e, n
