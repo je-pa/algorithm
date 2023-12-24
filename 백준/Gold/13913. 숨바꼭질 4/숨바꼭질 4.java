@@ -1,66 +1,85 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
-class Main {
-    static int N, K;
-    static int[] parent = new int[100001];
-    static int[] time = new int[100001];
-
-    public static void main(String[] args) throws Exception {
+public class Main {
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st;
+        int[] nk = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int n = nk[0];
+        int k = nk[1];
+        boolean[] visit = new boolean[200_001];
+        int[] parent = new int[200_001];
+        int[] count = new int[200_001];
+        Queue<Pair> queue = new LinkedList<>();
 
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
+        queue.add(new Pair(n, 0));
+        int resultL=0;
 
-        bfs();
-
-        // 순서대로 구하기 위해 stack 에 담았다가 다시 pop
-        Stack<Integer> stack = new Stack<>();
-        stack.push(K);
-        int index = K;
-
-        while (index != N) {
-            stack.push(parent[index]);
-            index = parent[index];
-        }
-
-        // 최종 출력
-        sb.append(time[K] - 1 + "\n");
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop() + " ");
-        }
-
-        System.out.println(sb.toString());
-    }
-
-    static void bfs() {
-        Queue<Integer> q = new LinkedList<Integer>();
-        q.add(N);
-        time[N] = 1;
-
-        while (!q.isEmpty()) {
-            int now = q.poll();
-
-            if (now == K) return;
-            
-            for (int i=0; i<3; i++) {
-                int next;
-
-                if (i == 0)         next = now + 1;
-                else if (i == 1)    next = now - 1;
-                else                next = now * 2;
-
-                if (next < 0 || next > 100000) continue;
-
-                if (time[next] == 0) {
-                    q.add(next);
-                    time[next] = time[now] + 1;
-                    parent[next] = now;
-                }
+        while (!queue.isEmpty()){
+            Pair cur = queue.remove();
+            int curK = cur.getKey();
+            int curL = cur.getLength();
+            visit[curK] =true;
+            if(curK == k){
+                resultL = curL;
+                break;
+            }
+            if(curK-1 >=0 && !visit[curK-1]){
+                int nextK = curK -1;
+                parent[nextK] = curK;
+                count[nextK] = curL+1;
+                queue.add(new Pair(nextK, curL+1));
+                visit[nextK] =true;
+            }
+            if(curK+1 < visit.length && !visit[curK+1]){
+                int nextK = curK +1;
+                parent[nextK] = curK;
+                count[nextK] = curL+1;
+                queue.add(new Pair(nextK, curL+1));
+                visit[nextK] =true;
+            }
+            if(curK*2 < visit.length && !visit[curK*2]){
+                int nextK = curK *2;
+                parent[nextK] = curK;
+                count[nextK] = curL+1;
+                queue.add(new Pair(nextK, curL+1));
+                visit[nextK] =true;
             }
         }
+        int back = k;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(k);
+        while(back != n){
+            stack.push(parent[back]);
+            back = parent[back];
+        }
+        StringBuilder sb = new StringBuilder();
+        while(!stack.isEmpty()){
+            sb.append(stack.pop()+" ");
+        }
+        System.out.println(resultL);
+        System.out.println(sb);
+    }
+}
+
+class Pair {
+    private int key;
+    private int length;
+
+    public Pair(int key, int length) {
+        this.key = key;
+        this.length = length;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public int getLength(){
+        return length;
     }
 }
