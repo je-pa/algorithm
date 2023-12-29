@@ -36,7 +36,7 @@ public class Main {
         System.out.println(count);
     }
     static void dfs(int index){
-        if(index != REMOVE && list.get(index).isEmpty()) {
+        if(list.get(index).isEmpty()) {
             count++;
             return;
         }
