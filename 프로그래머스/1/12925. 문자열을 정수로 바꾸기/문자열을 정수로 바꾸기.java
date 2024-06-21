@@ -17,7 +17,7 @@ class Solution {
             else if(ch !='+')
                 result = result * 10 + (ch - '0');
         }
-        // return (Sign?1:-1)* result;
-        return Integer.parseInt(s);
+        return (Sign?1:-1)* result;
+        // return Integer.parseInt(s);
     }
 }
