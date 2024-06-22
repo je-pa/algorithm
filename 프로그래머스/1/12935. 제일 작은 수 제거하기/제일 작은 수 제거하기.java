@@ -8,19 +8,11 @@ class Solution {
         }
         int[] answer = new int[len-1];
         int min = Arrays.stream(arr).min().getAsInt();
-        int lasti = 0;
-        int lastj= 0;
-        for(int i=0, j=0; i<len-1;i++){
+        for(int i=0, j=0; i<len;i++){
             if(min!=arr[i]){
                 answer[j]=arr[i];
                 j++;
-                lastj= j;
-                lasti = i;
             }
-        }
-
-        if(lasti != len-1){
-            answer[lastj] = arr[lasti+1];    
         }
         
         return answer;
