@@ -7,13 +7,13 @@ class Solution {
             answer*=(long)10;
         }
         answer/=10;
-        int i=1;
-        int result = 0;
-        while(answer != 0){
-            result += (answer%10)*i;
-            answer/=10;
-            i*=3;
-        }
-        return result;
+        // int i=1;
+        // int result = 0;
+        // while(answer != 0){
+        //     result += (answer%10)*i;
+        //     answer/=10;
+        //     i*=3;
+        // }
+        return Integer.parseInt(String.valueOf(answer),3);
     }
 }
