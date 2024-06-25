@@ -1,19 +1,19 @@
 class Solution {
     public String solution(String s) {
-        String[] arr = s.toLowerCase().split(" ");
-        StringBuilder sb = new StringBuilder();
-        for(String str : arr){
-            for(int i=0 ; i<str.length(); i++){
-                char data = str.charAt(i);
-                sb.append(i%2==0 ? (char)(data-32) : data );
+
+        String answer = "";
+        int cnt = 0;
+        String[] array = s.split("");
+
+        for(String ss : array) {
+            if(ss.equals(" ")){
+                cnt = 0;
+                answer+= " ";
+                continue;
             }
-            sb.append(" ");
+            cnt ++;
+            answer += cnt%2 == 0 ? ss.toLowerCase() : ss.toUpperCase(); 
         }
-        int index = s.length()-1;
-        while(s.charAt(index)==' '){
-            index-=1;
-            sb.append(" ");
-        }
-        return sb.deleteCharAt(sb.lastIndexOf(" ")).toString();
-    }
+      return answer;
+  }
 }//9
