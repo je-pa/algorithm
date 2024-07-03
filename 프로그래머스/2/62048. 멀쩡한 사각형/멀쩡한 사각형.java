@@ -1,9 +1,9 @@
 class Solution {
-    public long solution(long w, long h) {
+    public long solution(int w, int h) {
         long answer = 1;
         long k = gcd(w,h);
-        long wr = w/k;
-        long hr = h/k;
+        long wr = (long)((long)w/(long)k);
+        long hr = (long)((long)h/(long)k);
         long count = 0;
         for(long i=0 ; i<wr; i++){
             long cy = (long)((double)hr/(double)wr*(double)i);
@@ -15,7 +15,7 @@ class Solution {
         //     long ny = (long)(Math.ceil((double)h/(double)w*((double)i+1.0)));
         //     count+=ny-cy;
         // }
-        return (w*h)-count*k;
+        return ((long)w*(long)h)-count*k;
     }
     
     public long gcd(long x, long y){
