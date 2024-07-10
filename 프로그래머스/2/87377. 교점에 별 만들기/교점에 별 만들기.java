@@ -2,11 +2,11 @@ import java.util.*;
 class Solution {
     public String[] solution(int[][] line) {
         String[] answer = {};
-        PriorityQueue<long[]> que = new PriorityQueue<>((x,y) -> {
+        PriorityQueue<int[]> que = new PriorityQueue<>((x,y) -> {
             if(x[1]==y[1]){
-                return Long.compare(x[0], y[0]);
+                return Integer.compare(x[0], y[0]);
             }
-            return Long.compare(x[1], y[1]);
+            return Integer.compare(x[1], y[1]);
         });
         int minx = Integer.MAX_VALUE;
         int miny = Integer.MAX_VALUE;
@@ -29,7 +29,7 @@ class Solution {
                 if((e*c - a*f)%div != 0) continue;
                 int x = (int)((b*f - e*d)/div); 
                 int y = (int)((e*c - a*f)/div);
-                que.add(new long[]{x,y});
+                que.add(new int[]{x,y});
                 // System.out.println("x:"+x +" y:"+y);
                 minx = Math.min(x, minx);
                 miny = Math.min(y, miny);
@@ -43,10 +43,10 @@ class Solution {
         return reverse(answer);
     }
     
-    String[] sq(long minx, long miny, long maxx, long maxy){
-        int ylen = (int)(maxy-miny + 1);
+    String[] sq(int minx, int miny, int maxx, int maxy){
+        int ylen = (maxy-miny + 1);
         String[] arr = new String[ylen];
-        int xlen = (int)(maxx - minx +1);
+        int xlen = (maxx - minx +1);
         for(int j=0 ; j<arr.length ; j++){
             StringBuilder sb = new StringBuilder();
             for(int i=0; i< xlen ; i++){
@@ -57,10 +57,9 @@ class Solution {
         return arr;
     }
     
-    String[] make(PriorityQueue<long[]> p , String[] arr, long minx, long miny){
-        
+    String[] make(PriorityQueue<int[]> p , String[] arr, int minx, int miny){
         while(!p.isEmpty()){
-            long[] dot = p.poll();
+            int[] dot = p.poll();
             int x = (int)(dot[0] - minx);
             int y = (int)(dot[1] - miny);
             String str = arr[y];
