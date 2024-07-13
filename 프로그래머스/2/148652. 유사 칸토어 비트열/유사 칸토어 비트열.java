@@ -12,17 +12,12 @@ class Solution {
             }
             
         }
-        System.out.println(l +" "+ln);
-        System.out.println(re(l-1,ln+1));
-        System.out.println(r +" "+rn);
-        System.out.println(re(r,rn+1));
         
         return (int)(re(r,rn+1) - re(l-1,ln+1));
     }
     long re(long l, long n){
         if(n<1) return 0;
         if(l == 0) return 0;
-        // System.out.println(l + " "+ n);
         long m =l/(long)Math.pow(5,n-1);
         if(m==2) return m*(long)Math.pow(4,n-1);
         if(m>2) m-=1;
