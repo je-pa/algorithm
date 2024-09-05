@@ -5,7 +5,8 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Main {
-
+  public static int minT = 0;
+  public static int count = 0;
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer tokenizer = new StringTokenizer(br.readLine(), " ");
@@ -16,11 +17,17 @@ public class Main {
       System.out.println(1);
       return;
     }
+    bfs(n, k);
+
+    System.out.println(minT);
+    System.out.println(count);
+  }
+
+  private static void bfs(int n, int k) {
     LinkedList<Info> list = new LinkedList<>();
-    int[] arr = new int[Math.max(n, k)*2];
+    int[] arr = new int[Math.max(n, k)+2];
     list.add(new Info(n, 0));
-    int minT = 0;
-    int count = 0;
+
     while(!list.isEmpty()){
       Info info = list.poll();
       int cur = info.point;
@@ -29,43 +36,21 @@ public class Main {
         continue;
       }
 
-      int minus = cur - 1;
-      int plus = cur + 1;
-      int gob = cur * 2;
-
-      if(minus >= 0 && (arr[minus] >= nextT || arr[minus] == 0)){
-        if(minus == k){
-          count++;
-          minT = nextT;
-          continue;
+      int[] nextPoint = {cur - 1, cur + 1, cur * 2};
+      for(int point : nextPoint){
+        if(point >= 0 && point < arr.length&& (arr[point] >= nextT || arr[point] == 0)){
+          if(point == k){
+            count++;
+            minT = nextT;
+            continue;
+          }
+          list.add(new Info(point, nextT));
+          arr[point] = nextT;
         }
-        list.add(new Info(minus, nextT));
-        arr[minus] = nextT;
       }
-      if(plus < arr.length && (arr[plus] >= nextT || arr[plus] == 0)){
-        if(plus == k){
-          count++;
-          minT = nextT;
-          continue;
-        }
-        list.add(new Info(plus, nextT));
-        arr[plus] = nextT;
-      }
-      if(gob < arr.length && (arr[gob] >= nextT || arr[gob] == 0)){
-        if(gob == k){
-          count++;
-          minT = nextT;
-          continue;
-        }
-        list.add(new Info(gob, nextT));
-        arr[gob] = nextT;
-      }
-
     }
-
-    System.out.println(minT);
-    System.out.println(count);
   }
+
   static class Info{
     int point;
     int time;
