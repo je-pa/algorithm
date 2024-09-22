@@ -19,9 +19,11 @@ public class Main {
             length += digit * count;
             digit++;
             start *= 10;
-            count = (start * 10 - start); // 각 자리수 범위에 있는 숫자 개수
+            
             if (start * 10 - 1 > N) {
                 count = N - start + 1;
+            }else{
+                count = (start * 10 - start); // 각 자리수 범위에 있는 숫자 개수
             }
         }
 
