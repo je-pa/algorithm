@@ -15,15 +15,14 @@ class Main{
             arr[i] = Integer.parseInt(st.nextToken());
         }
         Arrays.sort(arr);
-        int left = 1;
-        int right = arr[arr.length-1];
+        int left = 0;
+        int right = Integer.MAX_VALUE;
         while(left <= right){
             int mid = right - (right - left)/2;
             boolean t = false;
             int cur = arr[0];
             int count = 1;
             for(int i : arr){
-                if(i == arr[0]) continue;
                 if(i-cur >= mid){
                     count++;
                     cur = i;
@@ -40,6 +39,6 @@ class Main{
                 right = mid-1;
             }
         }
-        System.out.println(left-1);
+        System.out.println(right);
     }
 }
