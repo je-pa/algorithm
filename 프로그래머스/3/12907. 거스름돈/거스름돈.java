@@ -1,5 +1,5 @@
 class Solution {
-    private int[][] dp;
+      private int[][] dp;
 
     public int solution(int n, int[] money) {
 
