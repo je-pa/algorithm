@@ -16,12 +16,11 @@ public class Main {
 
     System.out.println(two(trees, m));
   }
-  public static long two(int[] trees, int m) {
-    long left = 0;
-    Arrays.sort(trees);
-    long right = trees[trees.length - 1];
+  public static int two(int[] trees, int m) {
+    int left = 0;
+    int right = Integer.MAX_VALUE;
     while(left <= right){
-      long mid = (left + right) / 2;
+      int mid = (left + right) / 2;
       long sum = 0;
       for(int i = 0; i < trees.length; i++){
         sum += Math.max(0, trees[i] - mid);
