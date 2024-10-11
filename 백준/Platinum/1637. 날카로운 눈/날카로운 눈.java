@@ -22,7 +22,7 @@ public class Main {
   }
   public static long two(int[][] arrs) {
     long left = 0;
-    long right = Long.MAX_VALUE;
+    long right = (long)(Integer.MAX_VALUE+(long)2);
 
     while(left <= right){
       long mid = (left + right) / 2;
