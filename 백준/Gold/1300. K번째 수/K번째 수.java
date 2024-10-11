@@ -10,7 +10,7 @@ public class Main {
 
     System.out.println(two(n, m));
   }
-  public static long two(int n, int m) {
+  public static int two(int n, int m) {
     int left = 0;
     int right = Integer.MAX_VALUE;
 
