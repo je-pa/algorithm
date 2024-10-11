@@ -1,60 +1,75 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    int n = Integer.parseInt(br.readLine());
-    int[][] arrs = new int[n][3];
-    for (int i = 0; i < n; i++) {
-      StringTokenizer st = new StringTokenizer(br.readLine());
-      arrs[i][0] = Integer.parseInt(st.nextToken());
-      arrs[i][1] = Integer.parseInt(st.nextToken());
-      arrs[i][2] = Integer.parseInt(st.nextToken());
-    }
-    long k = two(arrs);
-    if(k==0){
-      System.out.println("NOTHING");
-    }else{
-      System.out.println(k + " " + count(k, arrs));
-    }
-  }
-  public static long two(int[][] arrs) {
-    long left = 0;
-    long right = (long)(Integer.MAX_VALUE+(long)1);
-
-    while(left <= right){
-      long mid = (left + right) / 2;
-      long sum = 0;
-      long count =0;
-      for(int[] arr : arrs){
-        int a = arr[0];
-        int c = arr[1];
-        int b = arr[2];
-        if(a > mid) continue;
-        if(c < a) continue;
-        if(c < mid) count++;
-        sum += Math.max(0, Math.min((mid - a)/b , (c-a)/b) + 1);
-      }
-      if(sum%2 == 0 && count == arrs.length) return 0;
-      if(sum %2 == 1){
-        right = mid -1;
-      }else{
-        left = mid +1;
-      }
-    }
-    return left;
-  }
-  public static long count(long k, int[][] arrs){
-    long count =0 ;
-    for(int[] arr : arrs){
-      int a = arr[0];
-      int c = arr[1];
-      int b = arr[2];
-      if(a > k || k > c) continue;
-      if((k - a)%b == 0) count++;
-    }
-    return count;
-  }
+	static int N;
+	static int[] A, B, C;
+	
+	// 값의 범위가 int를 넘어가서 Long을 사용했다.
+	static long min = Long.MAX_VALUE;
+	static long max = Long.MIN_VALUE;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		N = Integer.parseInt(br.readLine());
+		
+		A = new int[N];
+		B = new int[N];
+		C = new int[N];
+		
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			A[i] = Integer.parseInt(st.nextToken());
+			C[i] = Integer.parseInt(st.nextToken());
+			B[i] = Integer.parseInt(st.nextToken());
+			
+			min = Math.min(min, A[i]);
+			max = Math.max(max, C[i]);
+		}
+		max++;
+		bs();
+	}
+	
+	static void bs() {
+		long left = min;
+		long right = max;
+		
+		while (left < right) {
+			long mid = (left + right) / 2;
+			
+			long sum = getSum(mid);
+			
+			// mid까지의 숫자갯수의 총합이 짝수면 조사하지 않은 범위에
+			// 홀수인 정수가 존재한다는 의미이므로 left = mid + 1
+			if (sum % 2 == 0) {
+				left = mid + 1;
+				
+			// mid까지의 숫자갯수의 총합이 홀수면 해당 영역에 
+			// 홀수인 정수가 존재한다는 의미이므로 right = mid;
+			} else {
+				right = mid;
+			}
+		}
+		
+		// 탐색을 마쳤을 때 left가 max라면 홀수인 값이 없다는 뜻
+		if (left == max) System.out.println("NOTHING");
+		
+		// 아니라면 해당하는 숫자를 구하기 위해 아래와 같은 식을 사용
+		else {
+			long num = getSum(left) - getSum(left - 1);
+			System.out.println(left + " " + num);
+		}
+	}
+	
+	static long getSum(long mid) {
+		long sum = 0;
+		for (int i = 0; i < N; i++) {
+			if (mid >= A[i]) sum += (Math.min(mid, C[i]) - A[i]) / B[i] + 1;
+		}
+		return sum;
+	}
 }
+
