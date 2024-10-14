@@ -10,8 +10,8 @@ public class Main {
     long min = Long.MAX_VALUE;
     Arrays.sort(arr);
     int[] result = new int[3];
-    for(int i = 0; i < n; i++) {
-      int l = 0;
+    for(int i = 0; i < n-1; i++) {
+      int l = i+1;
       int r = n-1;
 
       while(l < r){
