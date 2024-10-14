@@ -8,12 +8,10 @@ public class Main {
     int n = Integer.parseInt(br.readLine());
     char[] arr = br.readLine().toCharArray();
     int l = 0;
-    int r = -1;
+    int r = 0;
     int max = 0;
     Map<Character, Integer> map = new HashMap<>();
     while(r != arr.length){
-      r++;
-      if(r == arr.length) break;
       map.put(arr[r], map.getOrDefault(arr[r],0)+1);
       while(map.size()>n){
         map.put(arr[l], map.getOrDefault(arr[l],0)-1);
@@ -23,7 +21,7 @@ public class Main {
         l++;
       }
       max = Math.max(max, r-l+1);
-
+      r++;
     }
     System.out.println(max);
   }
