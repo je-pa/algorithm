@@ -10,7 +10,7 @@ public class Main {
     long min = Long.MAX_VALUE;
     Arrays.sort(arr);
     int[] result = new int[3];
-    for(int i = 0; i < n-1; i++) {
+    for(int i = 0; i < n-2; i++) {
       int l = i+1;
       int r = n-1;
 
@@ -34,10 +34,8 @@ public class Main {
         }
         if(ai + al +ar < 0){
           l++;
-        }else if(ai + al +ar > 0){
-          r--;
         }else{
-          break;
+          r--;
         }
       }
     }
