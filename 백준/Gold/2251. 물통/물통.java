@@ -30,7 +30,6 @@ public class Main {
       set.add(water[2]);
     }
 
-
     for(int[] arr : d){
       int l = arr[0] -1;
       int r = arr[1] -1;
@@ -42,15 +41,12 @@ public class Main {
       water[r] += amount;
       water[l] -= amount;
 
-      if(visit[water[0]][water[1]][water[2]]){
-        water[l] = cl;
-        water[r] = cr;
-      }else{
+      if (!visit[water[0]][water[1]][water[2]]) {
         visit[water[0]][water[1]][water[2]] = true;
         dfs(bottle, water);
-        water[l] = cl;
-        water[r] = cr;
       }
+      water[l] = cl;
+      water[r] = cr;
     }
   }
 
