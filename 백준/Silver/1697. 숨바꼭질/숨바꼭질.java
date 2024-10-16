@@ -1,43 +1,59 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws Exception{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int[] nk = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        int k = nk[1];
-        boolean[] visited = new boolean[200_001];
-        Queue<Integer[]> queue = new LinkedList<>();
+  public static int n;
+  public static int m;
+//  public static int[][] map;
+  public static boolean[] visit;
+  public static int[] dx = {1, -1, 0};
+//  public static int[] dy = {0, 1, 0, -1};
+//  public static int min = 10001;
 
-        queue.add(new Integer[]{nk[0],0});
-        Integer count =0;
-        while(!queue.isEmpty()){
-            Integer[] xc = queue.remove();
-            Integer n = xc[0];
-            visited[n] = true;
-            count = xc[1];
-            if(n==k){
-                break;
-            }
-            if (n-1>=0 && !visited[n-1])
-            {
-                queue.add(new Integer[]{n-1,count+1});
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+//    map = new int[n][m];
+    visit = new boolean[200_001];
+//    for (int i = 0; i < n; i++) {
+//      String s = br.readLine();
+//      for (int j = 0; j < m; j++) {
+//        int num = s.charAt(j) - '0';
+//        map[i][j] = num;
+//      }
+//    }
 
-            }
-            if (n+1 <= 100000 && !visited[n+1])
-            {
-                queue.add(new Integer[]{n+1,count+1});
+    System.out.println(bfs());
+  }
 
-            }
-            if (2*n <= 100000 && !visited[2*n])
-            {
-                queue.add(new Integer[]{n*2,count+1});
-
-            }
+  public static int bfs(){
+    LinkedList<Integer> q = new LinkedList<>();
+    q.add(n);
+    q.add(0);
+    visit[n] = true;
+    while(!q.isEmpty()){
+      int curX = q.poll();
+      int count = q.poll();
+      for(int i = 0; i < 3; i++){
+        int nx = 0;
+        if(dx[i] == 0){
+          nx= curX * 2;
+        }else{
+          nx= curX + dx[i];
         }
-        System.out.println(count);
+        int nc = count + 1;
+        if(nx <0 || nx >= 200_001) continue;
+        if(visit[nx]) continue;
+        if(nx == m){
+          return nc;
+        }
+        visit[nx] = true;
+        q.add(nx);
+        q.add(nc);
+      }
     }
+    return 0;
+  }
 }
