@@ -1,41 +1,41 @@
 import java.util.*;
 import java.io.*;
 
-class Main{
-    static boolean[] visited;
-    static int[] parent;
-    public static void main(String[] args){
-        Scanner scan = new Scanner(System.in);
-        int N = scan.nextInt();
-        visited = new boolean[N+1];
-        parent = new int[N+1];
-        
-        ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
-        for(int i=0; i<N+1 ; i++){
-            lists.add(new ArrayList<>());
-        }
-        for(int i=0 ; i<N-1 ; i++){
-            int a = scan.nextInt();
-            int b = scan.nextInt();
-            
-            lists.get(a).add(b);
-            lists.get(b).add(a);
-        }
-        
-        dfs(1, lists);
-        
-        for(int i=2;i<N+1 ; i++){
-            System.out.println(parent[i]);
-        }
+public class Main {
+  public static int n;
+
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    n = Integer.parseInt(br.readLine());
+    List<List<Integer>> list = new ArrayList<>();
+    for(int i = 0; i < n+1; i++) {
+      list.add(new ArrayList<>());
     }
-    public static void dfs(int index, ArrayList<ArrayList<Integer>> lists){
-        visited[index] = true;
-        for(int i : lists.get(index)){
-            if(!visited[i]){
-                parent[i] = index;
-                dfs(i,lists);
-            }
-        }
+    for(int i = 0; i < n-1; i++) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      int a = Integer.parseInt(st.nextToken());
+      int b = Integer.parseInt(st.nextToken());
+      list.get(a).add(b);
+      list.get(b).add(a);
     }
-    
+
+    boolean[] visit = new boolean[n+1];
+    int[] parents = new int[n+1];
+    LinkedList<Integer> q = new LinkedList<>();
+    q.add(1);
+    while(!q.isEmpty()) {
+      int cur = q.poll();
+      visit[cur] = true;
+      for(int i : list.get(cur)) {
+        if(visit[i]) continue;
+        q.add(i);
+        parents[i] = cur;
+      }
+    }
+    StringBuilder sb = new StringBuilder();
+    for(int i = 2; i < n+1; i++) {
+      sb.append(parents[i]).append("\n");
+    }
+    System.out.println(sb);
+  }
 }
