@@ -37,9 +37,6 @@ public class Main {
     if(dp[curN][curCheck] != 0){
       return dp[curN][curCheck];
     }
-    if(list.get(curN).size() == 1 && list.get(curN).get(0) == parent){
-      return dp[curN][curCheck] = curB ? ps[curN] : 0;
-    }
     dp[curN][curCheck] += curB ? ps[curN] : 0;
 
     for(int i : list.get(curN)){
