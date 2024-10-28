@@ -11,22 +11,22 @@ public class Main {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     N = br.readLine();
     len = N.length();
-    int result = pro(N);
-    if(N.length() < 3){
-      System.out.println(result + " " + result);
-      return;
-    }
+    pro(N, 0);
     System.out.println(min + " " + max);
   }
 
-  public static int pro(String n){
+  public static void pro(String n, int count){
     int len = n.length();
     int sum = count(n);
-    if(len == 1) return (n.charAt(0) - '0')%2 == 1 ? 1 : 0;
+    if(len == 1) {
+      int a = count + ((n.charAt(0) - '0')%2 == 1 ? 1 : 0);
+      min = Math.min(min, a);
+      max = Math.max(max, a);
+    }
     if(len == 2){
       int a = n.charAt(0) - '0';
       int b = n.charAt(1) - '0';
-      return sum + pro(String.valueOf(a + b));
+      pro(String.valueOf(a + b), count + sum);
     }
     if(len > 2){
       for (int i = 1; i < len - 1; i++) {
@@ -35,15 +35,10 @@ public class Main {
           int a = Integer.parseInt(n.substring(0, i));
           int b = Integer.parseInt(n.substring(i, j));
           int c = Integer.parseInt(n.substring(j, len));
-          sum += pro(String.valueOf(a+b+c));
-          if(!N.equals(n)) continue;
-          min = Math.min(sum, min);
-          max = Math.max(sum, max);
+          pro(String.valueOf(a+b+c), count + sum);
         }
       }
     }
-
-    return sum;
   }
   public static int count(String n){
     int sum = 0;
