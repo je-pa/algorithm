@@ -45,7 +45,7 @@ public class Main {
           if(sum > lastSum){
             result += (sum-K);
             result -= (lastSum-K);
-            lastJ = j;
+            lastJ = j-1;
             lastSum = sum;
           }
         }else{
