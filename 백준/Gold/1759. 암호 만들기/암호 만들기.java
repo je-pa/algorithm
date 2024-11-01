@@ -12,7 +12,7 @@ public class Main {
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
-    dfs(-1,-1,0,0,0,"");
+    dfs(0,0,0,0,0,"");
     StringBuilder sb = new StringBuilder();
     for(String s : result){
       sb.append(s).append("\n");
@@ -55,13 +55,13 @@ public class Main {
       return;
     }
     if(mi < ml.size()){
-      for(int i = mi+1 ; i < ml.size() ; i++){
-        dfs(i, ji, dep+1, mc+1, jc, s+ml.get(i));
+      for(int i = mi ; i < ml.size() ; i++){
+        dfs(i+1, ji, dep+1, mc+1, jc, s+ml.get(i));
       }
     }
     if(ji < jl.size()){
-      for(int i = ji+1 ; i < jl.size() ; i++){
-        dfs(mi, i, dep+1, mc, jc+1, s+jl.get(i));
+      for(int i = ji ; i < jl.size() ; i++){
+        dfs(mi, i+1, dep+1, mc, jc+1, s+jl.get(i));
       }
     }
 
