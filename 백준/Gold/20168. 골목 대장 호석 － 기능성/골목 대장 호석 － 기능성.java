@@ -44,7 +44,6 @@ public class Main {
   }
 
   public static void dfs(int cur, int max, int money){
-    if(visited[cur]) return;
     if(money > C) return;
     if(result < max) return;
     if(cur == B){
@@ -52,11 +51,13 @@ public class Main {
       check = true;
       return;
     }
-    visited[cur] = true;
     for(int[] i : list.get(cur)){
       int ni = i[0];
       int nm = i[1];
+      if(visited[ni]) continue;
+      visited[ni] = true;
       dfs(ni, Math.max(nm, max), money + nm);
+      visited[ni] = false;
     }
   }
 }
