@@ -37,47 +37,9 @@ public class Main {
     for(int i = 2 ; i < 37 ; i++){
       for(int j = 2 ; j < 37 ; j++){
         if(i==j) continue;
-        long X1 = 0;
-        int len1 = str1.length();
-        boolean check = false;
-        for(int k = 1 ; k <= len1 ; k++){
-          char c = str1.charAt(len1 - k);
-          long pow = (long)Math.pow(i, k-1);
-          if(c >= 'a'){
-            if(((c - 'a') + 10) >= i){
-              check = true;
-              break;
-            }
-            X1 += ((c - 'a') + 10) * pow;
-          }else{
-            if(((c - '0')) >= i){
-              check = true;
-              break;
-            }
-            X1 += ((c - '0')) * pow;
-          }
-        }
-        if(check) break;
-        long X2 = 0;
-        int len2 = str2.length();
-        for(int k = 1 ; k <= len2 ; k++){
-          char c = str2.charAt(len2 - k);
-          long pow = (long)Math.pow(j, k-1);
-          if(c >= 'a'){
-            if(((c - 'a') + 10) >= j){
-              check = true;
-              break;
-            }
-            X2 += ((c - 'a') + 10) * pow;
-          }else{
-            if(((c - '0')) >= j){
-              check = true;
-              break;
-            }
-            X2 += ((c - '0')) * pow;
-          }
-        }
-        if(check) break;
+        long X1 = getX1(str1, i);
+        long X2 = getX1(str2, j);
+        if(X1 == -1 || X2 == -1) continue;
         if(X1 == X2){
           count++;
           if(count == 1){
@@ -90,5 +52,26 @@ public class Main {
         }
       }
     }
+  }
+
+  private static long getX1(String str1, int i) {
+    long X = 0;
+    int len1 = str1.length();
+    for (int k = 1; k <= len1; k++) {
+      char c = str1.charAt(len1 - k);
+      long pow = (long) Math.pow(i, k - 1);
+      if (c >= 'a') {
+        if (((c - 'a') + 10) >= i) {
+          return  -1;
+        }
+        X += ((long)(c - 'a') + (long)10) * pow;
+      } else {
+        if (((c - '0')) >= i) {
+          return  -1;
+        }
+        X += ((long)(c - '0')) * pow;
+      }
+    }
+    return X;
   }
 }
