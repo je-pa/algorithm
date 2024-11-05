@@ -2,37 +2,53 @@ import java.util.*;
     import java.io.*;
 
 public class Main {
-
+// abc 1 / ab 1
   public static int N;
   public static int M;
   public static String[] arr;
+  public static HashMap<String, Integer> map = new HashMap<>();
+  public static ArrayList<PriorityQueue<Integer>> parents = new ArrayList<>();
+  public static ArrayList<PriorityQueue<Integer>> childs = new ArrayList<>();
+  public static PriorityQueue<String> all = new PriorityQueue<>();
   public static int count = 0;
-  public static PriorityQueue<String> sijo = new PriorityQueue<>();
-  public static PriorityQueue<String> sijoChilds = new PriorityQueue<>();
-  public static HashMap<String, Integer> parentCount = new HashMap<>();
-  public static HashMap<String, PriorityQueue<String>> childs = new HashMap<>();
+  public static int[] indeg;
+  public static boolean[] visited;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
-    pro();
     StringBuilder sb = new StringBuilder();
-    sb.append(sijo.size()).append("\n");
-    while (!sijo.isEmpty()) {
-      sb.append(sijo.poll()).append(" ");
+    StringBuilder sijo = new StringBuilder();
+    int sijoCount = 0;
+    for(int i=0 ; i<N ; i++){
+      if(parents.get(i).size() == 0){
+        sijoCount++;
+        sijo.append(arr[i]).append(" ");
+      }
     }
-    sb.append("\n");
-    while (!sijoChilds.isEmpty()) {
-      sb.append(sijoChilds.poll()).append("\n");
+    sb.append(sijoCount).append("\n").append(sijo).append("\n");
+
+    pro();
+    while (!all.isEmpty()) {
+      sb.append(all.poll()).append("\n");
     }
+
     System.out.println(sb);
   }
   public static void input(BufferedReader br) throws IOException{
     N = Integer.parseInt(br.readLine());
     StringTokenizer st = new StringTokenizer(br.readLine());
     arr = new String[N];
+    indeg = new int[N];
+    visited = new boolean[N];
     for(int i = 0; i < N; i++){
       arr[i] = st.nextToken();
+      parents.add(new PriorityQueue<>());
+      childs.add(new PriorityQueue<>());
+    }
+    Arrays.sort(arr);
+    for(int i=0 ; i< N ; i++){
+      map.put(arr[i], i);
     }
 
     M = Integer.parseInt(br.readLine());
@@ -41,46 +57,39 @@ public class Main {
       st = new StringTokenizer(br.readLine());
       String c = st.nextToken();
       String p = st.nextToken();
-
-      parentCount.put(c,parentCount.getOrDefault(c, 0)+1);
-      PriorityQueue<String> orDefault = childs.getOrDefault(p, new PriorityQueue<>());
-      orDefault.add(c);
-      childs.put(p, orDefault);
+      parents.get(map.get(c)).add(map.get(p));
+      childs.get(map.get(p)).add(map.get(c));
+      indeg[map.get(p)]+=1;
     }
   }
 
   public static void pro() {
-    for(String s : arr){
-      if(!parentCount.containsKey(s)) {
-        parentCount.put(s, 0);
-        dfs(s, 0);
-        sijo.add(s);
+    LinkedList<Integer> q = new LinkedList<>();
+    for(int i=0 ; i<N ; i++){
+      if(indeg[i] == 0){
+        q.add(i);
       }
     }
-  }
-  public static void dfs(String p, int dep){
-    if(parentCount.get(p) == dep){
+    while(!q.isEmpty()){
+      int cur = q.poll();
+      for(int i : parents.get(cur)){
+        indeg[i]-=1;
+        if(indeg[i] ==0) q.add(i);
+      }
       StringBuilder sb = new StringBuilder();
-      sb.append(p).append(" ");
-      PriorityQueue<String> child = childs.get(p);
-      if(child == null || child.size() == 0){
-        sb.append(0);
-        sijoChilds.add(sb.toString());
-        return;
-      }
-      int count = 0;
       StringBuilder cs = new StringBuilder();
-      for(String c : child){
-        if(parentCount.get(c) != dep + 1) continue;
+      int count = 0;
+      PriorityQueue<Integer> pq = childs.get(cur);
+      while(!pq.isEmpty()){
+        int i = pq.poll();
+        if(visited[i]) continue;
         count++;
-        cs.append(c).append(" ");
+        visited[i] = true;
+        cs.append(arr[i]).append(" ");
       }
-      sb.append(count).append(" ").append(cs);
-      sijoChilds.add(sb.toString());
-
-      for(String c : child){
-        dfs(c, dep+1);
-      }
+      sb.append(arr[cur]).append(" ").append(count).append(" ").append(cs);
+      all.add(sb.toString());
     }
   }
+
 }
