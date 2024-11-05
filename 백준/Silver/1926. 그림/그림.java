@@ -2,15 +2,15 @@ import java.util.*;
 import java.io.*;
 
 public class Main{
-    public static int N;
-    public static int M;
-    public static int[][] map;
-    public static boolean[][] visited;
-    public static int[] dx = {0,0,1,-1};
-    public static int[] dy = {1,-1,0,0};
-    public static int count = 0;
-    public static int max = 0;
-    public static int cur = 0;
+    static int N;
+    static int M;
+    static int[][] map;
+    static boolean[][] visited;
+    static int[] dx = {0,0,1,-1};
+    static int[] dy = {1,-1,0,0};
+    static int count = 0;
+    static int max = 0;
+    static int cur = 0;
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -36,7 +36,7 @@ public class Main{
         System.out.println(count);
         System.out.println(max);
     }
-    public static void dfs(int x, int y){
+    static void dfs(int x, int y){
         visited[x][y] = true;
         cur++;
         for(int i=0 ; i<4 ; i++){
