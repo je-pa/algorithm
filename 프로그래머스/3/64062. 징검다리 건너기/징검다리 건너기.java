@@ -4,7 +4,7 @@ class Solution {
         int l = 0;
         int r = Integer.MAX_VALUE;
         while(l < r){
-            int mid = (l + r)/2;
+            int mid = (l/2 + r/2);
             int count = 0;
             for(int i : stones){
                 if(i <= mid){
@@ -14,10 +14,10 @@ class Solution {
                 }
                 if(count >= k) break;
             }
-            if(count >= k){
-                r = mid;
-            }else{
+            if(count < k){
                 l = mid + 1;
+            }else{
+                r = mid;
             }
         }
         return r;
