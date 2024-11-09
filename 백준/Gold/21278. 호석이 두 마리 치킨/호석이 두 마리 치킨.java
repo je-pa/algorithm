@@ -58,7 +58,7 @@ public class Main {
       for(int j = i+1; j <= N; j++) {
         int sum = 0;
         for(int k = 1; k <= N; k++) {
-          if(arr[i][k] == Integer.MAX_VALUE || arr[j][k] == Integer.MAX_VALUE) continue;
+//          if(arr[i][k] == Integer.MAX_VALUE || arr[j][k] == Integer.MAX_VALUE) continue;
           sum+=Math.min(arr[i][k], arr[j][k]);
         }
         if(sum < result){
