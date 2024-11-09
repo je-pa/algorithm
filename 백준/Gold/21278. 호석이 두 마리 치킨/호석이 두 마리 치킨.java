@@ -9,8 +9,6 @@ public class Main {
   public static int min, max;
   public static int[][] arr;
 
-  public static boolean[] visited;
-
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
@@ -33,7 +31,7 @@ public class Main {
     for(int i = 1; i <= N; i++) {
       for(int j = 1; j <= N; j++) {
         if(i == j) continue;
-        arr[i][j] = Integer.MAX_VALUE;
+        arr[i][j] = 101;
       }
     }
     for (int i = 0; i < M; i++) {
@@ -48,7 +46,7 @@ public class Main {
     for(int i = 1; i <= N; i++) {
       for(int j = 1; j <= N; j++) {
         for(int k = 1; k <= N; k++) {
-          if(arr[i][k] == Integer.MAX_VALUE || arr[k][j] == Integer.MAX_VALUE) continue;
+          if(i== k || j == k) continue;
           arr[i][j] = Math.min(arr[i][j], arr[i][k] + arr[k][j]);
           arr[j][i] = Math.min(arr[j][i], arr[j][k] + arr[k][i]);
         }
@@ -58,7 +56,6 @@ public class Main {
       for(int j = i+1; j <= N; j++) {
         int sum = 0;
         for(int k = 1; k <= N; k++) {
-//          if(arr[i][k] == Integer.MAX_VALUE || arr[j][k] == Integer.MAX_VALUE) continue;
           sum+=Math.min(arr[i][k], arr[j][k]);
         }
         if(sum < result){
