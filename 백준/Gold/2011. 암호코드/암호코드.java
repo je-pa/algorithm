@@ -1,99 +1,46 @@
 import java.io.*;
 import java.util.*;
-import java.lang.Math;
 
 public class Main {
-    static FastReader scan = new FastReader();
-    static StringBuilder sb = new StringBuilder();
 
-    static String str;
-    static int[] Dy;
-    static int N, MOD = 1000000;
+  public static String N; // 최대 수
+  public static int result; // 최대 수
+  public static int[] dp; // 최대 수
 
-    static void input() {
-        str = scan.next();
-        N = str.length();
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    input(br);
+    pro();
+    System.out.println(dp[dp.length - 1]);
+  }
+  public static boolean check(char a, char b){
+    if(a == '1') return true;
+    if(a == '2' && b < '7') return true;
+    return false;
+  }
+  public static boolean check(String s){
+    int a = Integer.parseInt(s);
+    return a >= 10 && a <= 26;
+  }
+
+  static void input(BufferedReader br) throws Exception {
+    N = br.readLine();
+    dp = new int[N.length()];
+  }
+
+  static void pro(){
+    if(N.length() < 1) return;
+    if(N.charAt(0) != '0') dp[0] = 1;
+    if(N.length() < 2) return;
+    if(N.charAt(1) != '0') dp[1] = dp[0];
+    dp[1] += check(N.charAt(0), N.charAt(1)) ? 1 : 0;
+
+    for(int i = 2; i < dp.length; i++){
+      if(N.charAt(i) != '0') dp[i] = dp[i-1];
+//      dp[i] += check(N.substring(i-1, i+1)) ? dp[i-2] : 0;
+      dp[i] += check(N.charAt(i-1), N.charAt(i)) ? dp[i-2] : 0;
+      dp[i] %= 1000000;
     }
-
-    static boolean check(char A, char B) {  // 'AB' 라는 두 자리 숫자가 하나의 수로 해독이 가능한가?
-        if (A == '0') return false;
-        if (A == '1') return true;
-        if (A >= '3') return false;
-        return B <= '6';
-    }
-
-    static void pro() {
-        Dy = new int[N];
-
-        // 초기값 구하기
-        if (str.charAt(0) != '0') Dy[0] = 1;
-
-        // 점화식을 토대로 Dy 배열 채우기
-        for (int i = 1; i < N; i++) {
-            // i 번 숫자를 단독으로 해석 가능할 때
-            if (str.charAt(i) != '0') Dy[i] = Dy[i - 1];
-
-            // i - 1번과 i 번 숫자를 하나의 문자로 해석 가능할 때
-            if (check(str.charAt(i - 1), str.charAt(i))) {
-                if (i >= 2) Dy[i] += Dy[i - 2];
-                else Dy[i] += 1;
-                Dy[i] %= MOD;
-            }
-        }
-
-        // Dy배열로 정답 계산하기
-        System.out.println(Dy[N - 1]);
-    }
-
-    public static void main(String[] args) {
-        input();
-        pro();
-    }
-
-
-    static class FastReader {
-        BufferedReader br;
-        StringTokenizer st;
-
-        public FastReader() {
-            br = new BufferedReader(new InputStreamReader(System.in));
-        }
-
-        public FastReader(String s) throws FileNotFoundException {
-            br = new BufferedReader(new FileReader(new File(s)));
-        }
-
-        String next() {
-            while (st == null || !st.hasMoreElements()) {
-                try {
-                    st = new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return st.nextToken();
-        }
-
-        int nextInt() {
-            return Integer.parseInt(next());
-        }
-
-        long nextLong() {
-            return Long.parseLong(next());
-        }
-
-        double nextDouble() {
-            return Double.parseDouble(next());
-        }
-
-        String nextLine() {
-            String str = "";
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return str;
-        }
-    }
+  }
 }
+// 18 18 8
