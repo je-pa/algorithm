@@ -1,56 +1,61 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
-  public static void main(String[] args) throws Exception{
+  public static int N;
+  public static int[][] arr;
+  public static int[] dy = {-1, 0, 1};
+
+  public static StringBuilder result = new StringBuilder();
+
+  public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    Integer n = Integer.parseInt(br.readLine());
-    int[][] arr = new int[n][3];
-    for (int i = 0; i < n; i++) {
-      arr[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-    }
-
-    int[] min = new int[arr[0].length];
-    int[] max = new int[arr[0].length];
-    for (int i = 0; i < arr[0].length; i++) {
-      min[i] = arr[0][i];
-      max[i] = arr[0][i];
-    }
-    for (int i = 1; i < n; i++) {
-      int[] nextMin = new int[arr[0].length];
-      int[] nextMax = new int[arr[0].length];
-      for (int j = 0; j < arr[0].length; j++) {
-        Integer minV = Integer.MAX_VALUE;
-        Integer maxV = 0;
-
-        if(j>0){
-          minV = Math.min(min[j-1]+arr[i][j], minV);
-          maxV = Math.max(max[j-1]+arr[i][j], maxV);
-        }
-        if(j<arr[0].length-1){
-          minV = Math.min(min[j+1]+arr[i][j], minV);
-          maxV = Math.max(max[j+1]+arr[i][j], maxV);
-        }
-        minV = Math.min(min[j]+arr[i][j], minV);
-        maxV = Math.max(max[j]+arr[i][j], maxV);
-       
-       
-        nextMin[j] = minV;
-        nextMax[j] = maxV;
-      }
-      min = nextMin;
-      max = nextMax;
-    }
-    int minV = Integer.MAX_VALUE;
-    int maxV = 0;
-    for(int i = 0; i < min.length; i++){
-      
-      minV = Math.min(min[i], minV);
-      maxV = Math.max(max[i], maxV);
-    }
-    System.out.println(maxV+" "+minV);
+    input(br);
+    pro();
+    System.out.println(result);
   }
 
+  static void input(BufferedReader br) throws Exception {
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    N = Integer.parseInt(st.nextToken());
+    arr = new int[N][3];
+    for(int i = 0; i < N; i++) {
+      st = new StringTokenizer(br.readLine());
+      for(int j = 0; j < 3; j++) {
+        arr[i][j] = Integer.parseInt(st.nextToken());
+      }
+    }
+  }
+
+  static void pro(){
+    int[][][] dp = new int[N][3][2];
+    dp[0][0][0] = arr[0][0];
+    dp[0][0][1] = arr[0][0];
+    dp[0][1][0] = arr[0][1];
+    dp[0][1][1] = arr[0][1];
+    dp[0][2][0] = arr[0][2];
+    dp[0][2][1] = arr[0][2];
+    for(int i = 1; i < dp.length; i++) {
+      for(int j = 0; j < 3; j++) {
+        int min = Integer.MAX_VALUE;
+        int max = 0;
+        for(int z = 0 ; z < dy.length ; z++){
+          int y = dy[z] + j;
+          if(y < 0 || y >= 3) continue;
+          min = Math.min(min, dp[i-1][y][0]);
+          max = Math.max(max, dp[i-1][y][1]);
+        }
+        dp[i][j][0] = min + arr[i][j];
+        dp[i][j][1] = max + arr[i][j];
+      }
+    }
+    int min = Integer.MAX_VALUE;
+    int max = 0;
+    for(int[] ar : dp[N-1]){
+      min = Math.min(min, ar[0]);
+      max = Math.max(max, ar[1]);
+    }
+    result.append(max).append(" ").append(min);
+  }
 }
