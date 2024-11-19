@@ -10,7 +10,6 @@ class Solution {
     public int solution(int[][] board) {
         N = board.length;
         visited = new boolean[N][N][4];
-        // dfs(board, -1, 0, 0, 0);
         PriorityQueue<Node> pq = new PriorityQueue<>();
         pq.add(new Node(0,0,0,-1));
         while(!pq.isEmpty()){
@@ -21,19 +20,16 @@ class Solution {
             int pd = node.preD;
             if(pd!=-1)visited[cx][cy][pd] =true;
             if(cx == N-1 && cy == N-1){
-                min = Math.min(min, cl);
-                continue;
+                return cl;
             }
             for(int i=0 ; i<4 ; i++){
                 int nx = cx + dx[i];
                 int ny = cy + dy[i];
                 int nl = cl + 100;
-                // System.out.println(nx +" "+ny);
                 if(nx < 0 || ny < 0 || nx >= N || ny >= N) {
                     continue;
                 }
                 if(visited[nx][ny][i] || board[nx][ny] == 1){
-                    // System.out.println(nx +" "+ny + " " +visited[nx][ny]+ " " +board[nx][ny]);
                     continue;
                 }
                 if(i!=pd && !(cx == 0 && cy == 0)) nl += 500;
@@ -59,30 +55,4 @@ class Solution {
             this.preD = preD;
         }
     }
-    
-    // public void dfs(int[][] map, int preD, int cx, int cy, int len){
-    //     if(cx==N-1 && cy == N-1){
-    //         // System.out.println(len);
-    //         min = Math.min(len,min);
-    //         return;
-    //     }
-    //     visited[cx][cy]=true;
-    //     // System.out.printf("%d,%d: %d\n",cx,cy,len);
-        // for(int i=0 ; i<4 ; i++){
-        //     int nx = cx + dx[i];
-        //     int ny = cy + dy[i];
-        //     int nl = len + 100;
-        //     // System.out.println(nx +" "+ny);
-        //     if(nx < 0 || ny < 0 || nx >= N || ny >= N) {
-        //         continue;
-        //     }
-        //     if(visited[nx][ny] || map[nx][ny] == 1){
-        //         // System.out.println(nx +" "+ny + " " +visited[nx][ny]+ " " +map[nx][ny]);
-        //         continue;
-        //     }
-        //     if(i!=preD && !(cx == 0 && cy == 0)) nl += 500;
-        //     dfs(map, i, nx, ny, nl);
-        //     visited[nx][ny] = false;
-        // }
-    // }
 }
