@@ -29,11 +29,7 @@ public class Main {
     int l = 0;
     int r = 0;
     Arrays.sort(arr);
-    while(r != N){
-      if(l == r) {
-        r++;
-        continue;
-      }
+    while(r != N && l != N){
       if(arr[r] - arr[l] >= M){
         result = Math.min(result, arr[r] - arr[l]);
         l++;
@@ -42,7 +38,6 @@ public class Main {
       if(arr[r] - arr[l] < M){
         r++;
       }
-
     }
   }
 }
