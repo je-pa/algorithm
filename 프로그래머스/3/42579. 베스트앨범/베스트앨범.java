@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Map.*;
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
@@ -8,7 +9,7 @@ class Solution {
             m.put(genres[i], m.getOrDefault(genres[i], new Count()).plus(plays[i], i));
         }
         
-        // m.entrySet();
+        Set<Entry<String,Count>> set =  m.entrySet();
         PriorityQueue<Count> p = new PriorityQueue<>();
         for(String str : m.keySet()){
             p.add(m.get(str));
