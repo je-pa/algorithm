@@ -56,7 +56,7 @@ public class Main {
       result.append(cur).append("\n");
       for(int i : lists.get(cur)){
         in[i] -= 1;
-        if(in[i] == 0){
+        if(in[i] <= 0){
           q.add(i);
         }
       }
