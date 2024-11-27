@@ -1,61 +1,71 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-
   static int N;
-  static StringBuilder result = new StringBuilder();
-  static int[] in;
-  static int[] times;
-  static List<List<Integer>> lists = new ArrayList<>();
-  public static void main(String[] args) throws Exception {
+  static int[] times, indeg;
+  static List<List<Integer>> tasks;
+  static PriorityQueue<int[]> q = new PriorityQueue<>((t1, t2) -> t1[1] - t2[1]);
+  static void input() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    input(br);
-    pro();
-    System.out.println(result);
-  }
-
-  static void input(BufferedReader br) throws Exception {
     StringTokenizer st = new StringTokenizer(br.readLine());
+
     N = Integer.parseInt(st.nextToken());
-    in = new int[N+1];
-    times = new int[N+1];
-    for(int i=0 ; i<N+1 ; i++){
-      lists.add(new ArrayList<>());
+    tasks = new ArrayList<>();
+    for (int i = 0; i <= N; i++) {
+      tasks.add(new ArrayList<>());
     }
-    for (int i = 1; i <= N; i++) {
+
+    times = new int[N + 1];
+    indeg = new int[N + 1];
+
+    for (int task = 1; task <= N; task++) {
       st = new StringTokenizer(br.readLine());
       int time = Integer.parseInt(st.nextToken());
-      times[i] = time;
-      int n = Integer.parseInt(st.nextToken());
-      in[i] = n;
-      for (int j = 0; j < n; j++) {
-        int a = Integer.parseInt(st.nextToken());
-        lists.get(a).add(i);
+      int count = Integer.parseInt(st.nextToken());
+      times[task] = time;
+
+      while (count-- > 0) {
+        int need = Integer.parseInt(st.nextToken());
+        tasks.get(task).add(need);
+        indeg[need]++;
       }
     }
   }
 
   static void pro() {
-    PriorityQueue<int[]> q = new PriorityQueue<>((x, y) -> Integer.compare(x[1], y[1]));
-    int count = 0;
-    for(int i=1 ; i<=N ; i++){
-      if(in[i] == 0){
-        q.add(new int[]{i, times[i]});
+    int answer = 0;
+    for (int task = 1; task <= N; task++) {
+      if (indeg[task] == 0) {
+        q.add(new int[]{task, times[task]});
       }
     }
-    while(!q.isEmpty()){
-      int[] cur = q.poll();
-      int curN = cur[0];
-      int curTime = cur[1];
-      count = Math.max(count, curTime);
-      for(int i : lists.get(curN)){
-        in[i] -= 1;
-        if(in[i] == 0){
-          q.add(new int[]{i, curTime + times[i]});
+
+    while (!q.isEmpty()) {
+      int[] info = q.poll();
+      int cur = info[0];
+      int startTime = info[1];
+      answer = Math.max(answer, startTime);
+
+      for (int next : tasks.get(cur)) {
+        indeg[next]--;
+        if (indeg[next] == 0) {
+          q.add(new int[]{next, startTime + times[next]});
         }
       }
     }
-    result.append(count);
+    System.out.println(answer);
+  }
+
+  public static void main(String[] args) throws Exception {
+    input();
+    pro();
   }
 }
