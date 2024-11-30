@@ -54,7 +54,7 @@ class Solution {
                 boolean nrf = (nr[2] == 1); 
                 boolean nbf = (nr[2] == 1);
                 if(nrx==nbx && nry==nby) continue;
-                // if(nrx==cbx && nry== cby) continue;
+                // if(nrx==cbx && nry== cby && nbx==crx && nby== cry) continue;
                 if(nbx==crx && nby== cry) continue;
                 rv[nrx][nry] = true;
                 bv[nbx][nby] = true;
