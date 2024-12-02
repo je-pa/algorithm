@@ -94,14 +94,22 @@ class Solution {
     // from진법 -> 10진법
     int changeTo10(int n, int from){
         // from -> 10
-        int sum = 0;
-        int go = 1;
-        while(n != 0){
-            sum += (n%10)*go;
-            n/=10;   
-            go*=from;
+        // int sum = 0;
+        // int go = 1;
+        // while(n != 0){
+        //     sum += (n%10)*go;
+        //     n/=10;   
+        //     go*=from;
+        // }
+        // return sum;
+        String str = String.valueOf(n);
+        int result = 0;
+        try{
+            result = Integer.parseInt(str, from);
+        }catch(Exception e){
+            
         }
-        return sum;
+        return result;
     }
     // 10진법 -> k 진법
     int change(int n, int k){
