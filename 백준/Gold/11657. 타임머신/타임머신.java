@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
   static int N;
   static int M;
-  static int MAX = 10_000 * 6_000;
+  static int MAX = Integer.MAX_VALUE;
   static StringBuilder result = new StringBuilder();
   static int[][] arr;
   static int[][] bell;
