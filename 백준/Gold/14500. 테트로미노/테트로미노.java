@@ -48,33 +48,39 @@ public class Main {
   }
 
   static void pro() {
-    for(int i=0 ; i<N ; i++){
-      for(int j=0 ; j<M ; j++){
-        for(int[][] t: ta){
-          for(int k=0 ; k<4 ; k++){
-            if(k!=0) t = r90(t);
-            result = Math.max(sum(i,j,t), result);
-          }
-          t = lr(t);
-          for(int k=0 ; k<4 ; k++){
-            if(k!=0) t = r90(t);
-            result = Math.max(sum(i,j,t), result);
+    for(int[][] t: ta){
+      for(int k=0 ; k<4 ; k++){
+        if(k!=0) t = r90(t);
+        result = Math.max(maxSum(t), result);
+      }
+      t = lr(t);
+      for(int k=0 ; k<4 ; k++){
+        if(k!=0) t = r90(t);
+        result = Math.max(maxSum(t), result);
+      }
+    }
+  }
+
+
+  static int maxSum(int[][] t){
+    int max = 0;
+    for(int i=0 ; i<N ; i++) {
+      for (int j = 0; j < M; j++) {
+        int sum =0;
+        if(i+t.length > N) continue;
+        if(j+t[0].length > M) continue;
+        for(int r = i ; r<i+t.length ; r++){
+          for(int c = j ; c<j+t[0].length ; c++){
+            if(t[r-i][c-j] == 1)sum+=arr[r][c];
           }
         }
+        max = Math.max(max, sum);
       }
     }
+
+    return max;
   }
-  static int sum(int i, int j, int[][] t){
-    if(i+t.length > N) return 0;
-    if(j+t[0].length > M) return 0;
-    int sum =0;
-    for(int r = i ; r<i+t.length ; r++){
-      for(int c = j ; c<j+t[0].length ; c++){
-        if(t[r-i][c-j] == 1)sum+=arr[r][c];
-      }
-    }
-    return sum;
-  }
+
   static int[][] r90(int[][] arr){
     int r = arr[0].length;
     int c = arr.length;
