@@ -52,14 +52,13 @@ public class Main {
       for(int j=0 ; j<M ; j++){
         for(int[][] t: ta){
           for(int k=0 ; k<4 ; k++){
+            if(k!=0) t = r90(t);
             result = Math.max(sum(i,j,t), result);
-            t = lr(t);
+          }
+          t = lr(t);
+          for(int k=0 ; k<4 ; k++){
+            if(k!=0) t = r90(t);
             result = Math.max(sum(i,j,t), result);
-            t = ud(t);
-            result = Math.max(sum(i,j,t), result);
-
-            if(k==4) continue;
-            t = r90(t);
           }
         }
       }
@@ -98,15 +97,5 @@ public class Main {
     }
     return na;
   }
-  static int[][] ud(int[][] arr){
-    int r = arr.length;
-    int c = arr[0].length;
-    int[][] na = new int[r][c];
-    for(int i=0 ; i<r ; i++){
-      for(int j=0 ; j<c ; j++){
-        na[r-i-1][j] = arr[i][j];
-      }
-    }
-    return na;
-  }
+
 }
