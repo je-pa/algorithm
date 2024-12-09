@@ -33,9 +33,7 @@ public class Main {
     while(idx < N && arr[idx][0] <= 0) idx++;
     
     for(int i=0 ; i<N ; i++){
-      if(idx == N) {
-        break;
-      }
+      if(idx == N) break;
       if(idx == i) continue;
       if(arr[i][0] <= 0) continue;
       arr[idx][0] -= arr[i][1];
