@@ -31,17 +31,11 @@ public class Main {
 
   static void dfs(int idx){
     while(idx < N && arr[idx][0] <= 0) idx++;
-    if(idx == N) {
-      int count =0;
-      for(int i=0 ; i<N ; i++){
-        if(arr[i][0] <= 0){
-          count++;
-        }
-      }
-      result = Math.max(result, count);
-      return;
-    }
+    
     for(int i=0 ; i<N ; i++){
+      if(idx == N) {
+        break;
+      }
       if(idx == i) continue;
       if(arr[i][0] <= 0) continue;
       arr[idx][0] -= arr[i][1];
@@ -61,10 +55,3 @@ public class Main {
 
 
 }
-
-// 16 21
-// 15 10.5
-// 14 5.25
-// 13 2.125
-// 12 1.0 -> 8 ^ 4
-//
