@@ -52,6 +52,7 @@ public class Main {
       result = -1;
       return;
     }
+    
     if(now1[N-1] == goal[N-1]) result = count1;
     if(now2[N-1] == goal[N-1]) result = count2;
   }
