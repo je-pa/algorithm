@@ -48,9 +48,12 @@ public class Main {
       }
     }
     result = N+1;
+    if(now1[N-1] != goal[N-1] && now2[N-1] != goal[N-1]) {
+      result = -1;
+      return;
+    }
     if(now1[N-1] == goal[N-1]) result = count1;
-    if(now2[N-1] == goal[N-1]) result = Math.min(count2,result);
-    if(now1[N-1] != goal[N-1] && now2[N-1] != goal[N-1]) result = -1;
+    if(now2[N-1] == goal[N-1]) result = count2;
   }
 
   static void click(boolean[] arr, int i){
