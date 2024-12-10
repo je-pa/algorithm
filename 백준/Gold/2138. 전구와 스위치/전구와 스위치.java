@@ -47,7 +47,7 @@ public class Main {
         count2++;
       }
     }
-    result = N+1;
+
     if(now1[N-1] != goal[N-1] && now2[N-1] != goal[N-1]) {
       result = -1;
       return;
