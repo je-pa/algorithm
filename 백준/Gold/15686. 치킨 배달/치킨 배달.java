@@ -5,7 +5,6 @@ public class Main {
   static int result = Integer.MAX_VALUE;
   static int N;
   static int M;
-  static int[][] arr;
   static List<int[]> houses = new ArrayList<>();
   static List<int[]> chs = new ArrayList<>();
 
@@ -20,12 +19,10 @@ public class Main {
     StringTokenizer st = new StringTokenizer(br.readLine());
     N = Integer.parseInt(st.nextToken());
     M = Integer.parseInt(st.nextToken());
-    arr = new int[N][N];
     for (int i = 0; i < N; i++) {
       st = new StringTokenizer(br.readLine());
       for(int j = 0; j < N; j++) {
         int a = Integer.parseInt(st.nextToken());
-        arr[i][j] = a;
         if(a == 1){
           houses.add(new int[]{i,j});
         }
@@ -42,6 +39,7 @@ public class Main {
   static void dfs(int idx, int dep, Set<Integer> set){
     if(dep == M){
       count(set);
+      return;
     }
     for(int i = idx ; i< chs.size() ; i++){
       set.add(i);
