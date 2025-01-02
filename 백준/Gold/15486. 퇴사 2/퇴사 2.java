@@ -26,7 +26,7 @@ public class Main {
 
   static void pro() {
     int[] dp = new int[N+1];
-    int max = -1;
+    int max = 0;
     for(int i=0 ; i<N+1 ; i++){
       max = Math.max(max, dp[i]);
       int nxt = i + arr[i][0];
