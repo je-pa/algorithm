@@ -99,11 +99,22 @@ public class Main {
     }
     throw new IllegalArgumentException();
   }
+  // 1, 3, 5, 8 // 2 4
   static boolean isContains(int s, int e, List<Integer> line){
-    for(int i : line){
-        if(i <s || i > e) continue;
+    if(line.isEmpty()) return false;
+    int l = 0;
+    int r = line.size() -1;
+    while(l<=r){
+      int m = (l+r)/2;
+      int n = line.get(m);
+      if(n < s){
+        l = m+1;
+      }else if(n > e){
+        r = m-1;
+      }else{
         return true;
+      }
     }
-      return false;
+    return false;
   }
 }
