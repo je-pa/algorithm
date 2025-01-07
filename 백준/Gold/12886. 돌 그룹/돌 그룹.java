@@ -32,7 +32,7 @@ public class Main {
   static void pro() {
     LinkedList<int[]> q = new LinkedList<>();
     Set<String> visited = new HashSet<>();
-    q.add(new int[]{A,B,C,0});
+    q.add(new int[]{A,B,C});
     visited.add(toStr(new int[]{A,B,C}));
     if(A==B && B ==C) {
       System.out.println(1);
@@ -54,7 +54,6 @@ public class Main {
         int na = next[0];
         int nb = next[1];
         int nc = next[2];
-        int nd = next[3];
         if(visited.contains(toStr(next))) continue;
         if(na==nb && nb==nc) {
           System.out.println(1);
@@ -67,11 +66,10 @@ public class Main {
     System.out.println(0);
   }
   static int[] make(int[] cur, int[] curD){
-    int[] newArr = new int[4];
-    for(int i=0 ; i < 4 ; i++){
+    int[] newArr = new int[3];
+    for(int i=0 ; i < 3 ; i++){
       newArr[i] = cur[i];
     }
-    newArr[3]+=1;
     if(newArr[curD[0]] < newArr[curD[1]]){
       newArr[curD[1]] -= newArr[curD[0]];
       newArr[curD[0]] += newArr[curD[0]];
