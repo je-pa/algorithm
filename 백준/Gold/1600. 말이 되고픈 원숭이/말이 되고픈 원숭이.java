@@ -30,7 +30,6 @@ public class Main {
   }
   static void pro() {
     LinkedList<int[]> q = new LinkedList<>();
-    PriorityQueue<Integer> d = new PriorityQueue<>();
     boolean[][][] visited = new boolean[N][M][31];
     q.add(new int[]{0,0,0,0});
     visited[0][0][0] = true;
@@ -42,8 +41,8 @@ public class Main {
       int[] c = q.poll();
       int cx = c[0], cy = c[1], cd = c[2], ck = c[3];
       if(cx == N-1 && cy == M-1){
-        d.add(cd);
-        continue;
+        System.out.println(cd);
+        return;
       }
       for(int i=0 ; i<dx.length ; i++){
         int nx = cx + dx[i];
@@ -67,7 +66,7 @@ public class Main {
 //      }
 //      System.out.println();
 //    }
-    System.out.println(d.isEmpty() ? -1 : d.poll());
+    System.out.println(-1);
   }
 }
 //2
