@@ -29,7 +29,7 @@ public class Main {
     }
   }
   static void pro() {
-    PriorityQueue<int[]> q = new PriorityQueue<>((x,y) -> Integer.compare(x[2],y[2]));
+    LinkedList<int[]> q = new LinkedList<>();
     PriorityQueue<Integer> d = new PriorityQueue<>();
     boolean[][][] visited = new boolean[N][M][31];
     q.add(new int[]{0,0,0,0});
