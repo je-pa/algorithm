@@ -32,11 +32,9 @@ public class Main {
   static void pro() {
     int result = N;
     for(int i=1 ; i<=N ; i++){
-      count =0;
       if(!done[i]) dfs(i);
-      result -= count;
     }
-    System.out.println(result);
+    System.out.println(result-count);
   }
   public static void dfs(int n){
     // 이미 방문 했을 때!
