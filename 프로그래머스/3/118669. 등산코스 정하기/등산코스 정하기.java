@@ -1,8 +1,12 @@
 import java.util.*;
 class Solution {
     int N;
+    int MAX = Integer.MAX_VALUE;
     List<List<int[]>> lists;
-    PriorityQueue<int[]> pq = new PriorityQueue<>((x,y) -> Integer.compare(x[0],y[0]));
+    PriorityQueue<int[]> pq = new PriorityQueue<>((x,y) -> {
+            if(x[1]!=y[1]) return Integer.compare(x[1],y[1]);
+            return Integer.compare(x[0],y[0]);
+        });
     Set<Integer> ss;
     Set<Integer> gs;
     int[] gArr;
@@ -14,80 +18,43 @@ class Solution {
         return result;
     }
     void pro(){
-        int l = 1;
-        int r = 10_000_000;
-        int an = 0;
-        while(l<=r){
-            int m = (l+r)/2;
-            
-            if(check(m)){
-                r = m-1;
-                an = m;
-            }else{
-                l = m+1;
-            }
-        }
         for(int g : gArr){
-            bfs(g, an);
+            bfs(g);
         }
         result = pq.poll();
     }
-    void bfs(int gate, int min){
-        LinkedList<int[]> q = new LinkedList<>();
+    void bfs(int gate){
+        PriorityQueue<int[]> q = new PriorityQueue<>((x,y) -> {
+            return Integer.compare(x[1],y[1]);
+        });
         boolean[] visited = new boolean[N+1];
-        q.add(new int[]{gate});
+        q.add(new int[]{gate, 0});
+        visited[gate] = true;
         
         while(!q.isEmpty()){
             int[] c = q.poll();
             int cn = c[0];
+            int cd = c[1];
+            visited[cn] = true;
+            if(MAX < cd) continue;
+            if(gs.contains(cn)){
+                pq.add(new int[]{gate, cd});
+                MAX = Math.min(MAX, cd);
+                return;
+            }
             for(int[] arr : lists.get(cn)){
                 int nn = arr[0];
                 int nd = arr[1];
-                if(min < nd) continue;
                 if(visited[nn]) continue;
-                if(gs.contains(nn)) continue;
-                visited[nn] = true;
-                if(ss.contains(nn)){
-                    pq.add(new int[]{nn, min});
-                    continue;
-                }
-                q.add(new int[]{nn});
+                if(ss.contains(nn)) continue;
+                
+                q.add(new int[]{nn, Math.max(cd,nd)});
             }
         }
-    }
-    
-    boolean check(int n){
-        for(int i : gArr){
-            if(qStart(i,n)) return true;
-        }
-        return false;
-    }
-    boolean qStart(int gate, int mid){
-        LinkedList<int[]> q = new LinkedList<>();
-        boolean[] visited = new boolean[N+1];
-        q.add(new int[]{gate});
-        
-        while(!q.isEmpty()){
-            int[] c = q.poll();
-            int cn = c[0];
-            for(int[] arr : lists.get(cn)){
-                int nn = arr[0];
-                int nd = arr[1];
-                if(mid < nd) continue;
-                if(visited[nn]) continue;
-                if(gs.contains(nn)) continue;
-                if(ss.contains(nn)){
-                    return true;
-                }
-                visited[nn] = true;
-                q.add(new int[]{nn});
-            }
-        }
-        return false;
     }
 
     void input(int n, int[][] paths, int[] gates, int[] summits){
-        gArr = gates;
+        gArr = summits;
         N = n;
         lists = new ArrayList<>();
         for(int i=0 ; i<=N ; i++){
