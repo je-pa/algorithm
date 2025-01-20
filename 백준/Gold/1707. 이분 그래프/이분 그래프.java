@@ -49,6 +49,7 @@ public class Main {
     }
     map[n] = cur;
     for(int i : lists.get(n)){
+      if(result == "NO") return;
       dfs(i, cur*(-1));
     }
   }
