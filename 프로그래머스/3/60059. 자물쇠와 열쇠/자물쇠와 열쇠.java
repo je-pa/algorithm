@@ -2,7 +2,6 @@ class Solution {
     public boolean solution(int[][] key, int[][] lock) {
         boolean answer = true;
         for(int t=0 ; t<4 ; t++){
-            // so(key);
             for(int pi = -key.length ; pi < lock.length ; pi++){
                 for(int pj= -key[0].length ; pj < lock[0].length ; pj++){
                     if(check(lock, key, pi, pj)) return true;
@@ -12,14 +11,7 @@ class Solution {
         }
         return false;
     }
-    void so(int[][] key){
-        for(int i=0 ; i<key.length ; i++){
-            for(int j=0 ; j<key[0].length ; j++){
-                System.out.print(key[i][j]+" ");
-            }
-            System.out.println();
-        }
-    }
+
     boolean isOut(int i, int j, int N, int M){
         return i < 0 || j < 0 || i>=N || j >=M;
     }
