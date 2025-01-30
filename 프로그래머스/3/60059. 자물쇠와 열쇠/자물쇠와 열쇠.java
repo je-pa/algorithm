@@ -2,8 +2,8 @@ class Solution {
     public boolean solution(int[][] key, int[][] lock) {
         boolean answer = true;
         for(int t=0 ; t<4 ; t++){
-            for(int pi = -key.length ; pi < lock.length ; pi++){
-                for(int pj= -key[0].length ; pj < lock[0].length ; pj++){
+            for(int pi = -key.length+1 ; pi < lock.length ; pi++){
+                for(int pj= -key[0].length+1 ; pj < lock[0].length ; pj++){
                     if(check(lock, key, pi, pj)) return true;
                 }
             }
