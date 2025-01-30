@@ -22,7 +22,7 @@ public class Main {
     long c = 1;
     for(int i = 3; i <= N; i++) {
       dp[i] = dp[i-1] + c;
-      for(int j = 3; i-j > 0 ; j++){
+      for(int j = 3; i-j > 0 && j<6 ; j++){
         if(dp[i] < (j-1)*dp[i-j]){
           c = dp[i-j];
           dp[i] = dp[i-j]*(j-1);
