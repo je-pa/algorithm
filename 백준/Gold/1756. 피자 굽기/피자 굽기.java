@@ -14,10 +14,6 @@ public class Main{
     }
     public static void pro(){
         int idx = D-1;
-        if(idx == 0 && N == 1 && arr[0] >= pizza[0]) {
-            System.out.print(1);
-            return;
-        }
  
         for(int i =0 ; i<N ; i++){
             if(idx < 0){
