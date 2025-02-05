@@ -3,7 +3,6 @@ import java.io.*;
 
 public class Main{
     static int D, N;
-    static int[] arr;
     static int[] pizza;
     static int[] dp;
     public static void main(String[] args) throws Exception{
@@ -13,34 +12,29 @@ public class Main{
         pro();
     }
     public static void pro(){
-        int idx = D-1;
+        int idx = D;
  
         for(int i =0 ; i<N ; i++){
-            if(idx < 0){
-                System.out.print(0);
-                return;
-            }
-            while(idx >= 0 && dp[idx]< pizza[i]){
+            while(idx > 0 && dp[idx-1]< pizza[i]){
                 idx--;
             }
+            if(idx==0) break;
             if(i!=N-1) idx--;
         }
-        System.out.print(idx+1);
+        System.out.print(idx);
     }
     public static void input(BufferedReader br) throws Exception {
         StringTokenizer st = new StringTokenizer(br.readLine());
         D = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
         
-        arr = new int[D];
         pizza = new int[N];
         dp = new int[D];
         
         st = new StringTokenizer(br.readLine());
         int min = Integer.MAX_VALUE;
         for(int i=0 ; i<D ; i++){
-            arr[i] = Integer.parseInt(st.nextToken());
-            min = Math.min(arr[i], min);
+            min = Math.min(Integer.parseInt(st.nextToken()), min);
             dp[i] = min;
         }
         st = new StringTokenizer(br.readLine());
