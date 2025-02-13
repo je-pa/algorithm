@@ -7,7 +7,7 @@ class Solution {
         for(int i : weights) {
     		double a = i*1.0;
     		double b = (i*2.0)/3.0;
-    		double c = (i*1.0)/2.0;
+    		double c = (i*2.0)/4.0;
     		double d = (i*3.0)/4.0;
     		if(map.containsKey(a)) answer += map.get(a);
     		if(map.containsKey(b)) answer += map.get(b);
