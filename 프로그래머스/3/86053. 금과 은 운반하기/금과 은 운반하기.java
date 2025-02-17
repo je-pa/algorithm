@@ -11,8 +11,7 @@ class Solution {
             long gs = 0;
             for(int i=0; i<t.length; i++) {
                 long cnt = ((mid+(long)t[i])/(long)t[i])/2L; 
-                long k = Math.min((long)g[i], (long)(w[i])*cnt);
-                maxG += k; 
+                maxG += Math.min((long)g[i], (long)(w[i])*cnt); 
                 gs += Math.min(w[i] * cnt, g[i]+s[i]); 
                 maxS += Math.min((long)s[i], (long)(w[i])*cnt);                
             }
