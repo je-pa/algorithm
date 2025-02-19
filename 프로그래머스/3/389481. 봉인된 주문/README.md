@@ -1,6 +1,6 @@
 # [level 3] 봉인된 주문 - 389481 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/389481#) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/389481) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 02월 20일 02:01:51
+2025년 02월 20일 02:02:13
 
 ### 문제 설명
 
