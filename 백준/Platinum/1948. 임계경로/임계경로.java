@@ -1,84 +1,86 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(stk.nextToken()); // node 개수
-        stk = new StringTokenizer(br.readLine());
-        int m = Integer.parseInt(stk.nextToken()); // edge 개수
+  public static int N, M;
+  public static int S, E;
 
-        ArrayList<ArrayList<Node>> graph = new ArrayList<>(); // 정방향 그래프
-        ArrayList<ArrayList<Node>> reverse_graph = new ArrayList<>(); // 역방향 그래프
+  static List<List<int[]>> lists;
+  static List<List<int[]>> reverse;
+  static int[] in;
+  static int[] maxLen;
+  static int[] counts;
 
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<Node>());
-            reverse_graph.add(new ArrayList<Node>());
-        }
-        int[] indegree = new int[n + 1];
-        int[] path = new int[n + 1];
-        for (int i = 1; i <= m; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(stk.nextToken());
-            int b = Integer.parseInt(stk.nextToken());
-            int e = Integer.parseInt(stk.nextToken());
-            graph.get(a).add(new Node(b, e));
-            indegree[b]++;
-            reverse_graph.get(b).add(new Node(a, e));
-        }
-        stk = new StringTokenizer(br.readLine());
-        int start = Integer.parseInt(stk.nextToken());
-        int end = Integer.parseInt(stk.nextToken());
-        //// 입력 끝
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    input(br);
+    pro();
+  }
 
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-        while (!q.isEmpty()) {
-            int now = q.poll();
-            for (Node cur : graph.get(now)) {
-                // 연결 성분 탐색
-                indegree[cur.toNode]--;
-                path[cur.toNode] = Math.max(path[cur.toNode], path[now] + cur.e);
-                if (indegree[cur.toNode] == 0)
-                    q.offer(cur.toNode);
-            }
+  static void pro() {
+    LinkedList<Integer> q = new LinkedList<>();
+    q.add(S);
+    while (!q.isEmpty()) {
+      int cur = q.poll();
+      for(int[] arr : lists.get(cur)){
+        int next = arr[0];
+        int len = arr[1];
+        if(maxLen[next] < len + maxLen[cur]){
+          maxLen[next] = len + maxLen[cur];
         }
-        // 역위상정렬
-        q.offer(end);
-        int cnt = 0;
-        boolean[] visited = new boolean[n + 1];
-        visited[end] = true;
-        while (!q.isEmpty()) {
-            int now = q.poll();
-            for (Node cur : reverse_graph.get(now)) {
-                if (path[now] == path[cur.toNode] + cur.e) {
-                    // 임계 경로이면
-                    cnt++; // 도로 개수 카운팅
-                    if (!visited[cur.toNode]) {
-                        // 아직 미방문인 노드라면
-                        q.offer(cur.toNode);
-                        visited[cur.toNode] = true;
-                    }
-                }
-            }
+        in[next]--;
+        if(in[next] == 0){
+          q.add(next);
         }
-        System.out.println(path[end]);
-        System.out.println(cnt);
+      }
     }
-
-    static class Node {
-        int toNode;
-        int e;
-
-        public Node(int toNode, int e) {
-            this.toNode = toNode;
-            this.e = e;
+    q.add(E);
+    int count = 0;
+    boolean[] visited = new boolean[N+1];
+    while(!q.isEmpty()){
+      int cur = q.poll();
+      for(int[] arr : reverse.get(cur)){
+        int next = arr[0];
+        int len = arr[1];
+        if(maxLen[cur] == len + maxLen[next]){
+          count ++;
+          if(!visited[next]){
+            visited[next] = true;
+            q.add(next);
+          }
         }
+      }
     }
+    System.out.println(maxLen[E]);
+    System.out.println(count);
+  }
+
+  static void input(BufferedReader br) throws Exception {
+    N = Integer.parseInt(br.readLine());
+    M = Integer.parseInt(br.readLine());
+    counts = new int[N+1];
+    maxLen = new int[N+1];
+    in = new int[N+1];
+
+    StringTokenizer st;
+    lists = new ArrayList<>();
+    reverse = new ArrayList<>();
+    for(int i=0 ; i<=N; i++){
+      lists.add(new ArrayList<>());
+      reverse.add(new ArrayList<>());
+    }
+    for(int i =0 ; i< M ; i++){
+      st = new StringTokenizer(br.readLine());
+      int a = Integer.parseInt(st.nextToken());
+      int b = Integer.parseInt(st.nextToken());
+      int c = Integer.parseInt(st.nextToken());
+      lists.get(a).add(new int[]{b,c});
+      reverse.get(b).add(new int[]{a,c});
+      in[b]++;
+    }
+    st = new StringTokenizer(br.readLine());
+    S = Integer.parseInt(st.nextToken());
+    E = Integer.parseInt(st.nextToken());
+  }
 }
+
