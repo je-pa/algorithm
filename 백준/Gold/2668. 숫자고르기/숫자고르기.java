@@ -16,38 +16,28 @@ public class Main {
   }
 
   static void pro() {
-    int count =0;
     for(int i = 1; i <= N; i++) {
       if(!visited[i]) {
         deps = new int[N+1];
-        LinkedList<Integer> q = new LinkedList<>();
-        int cur = dfs(i, 1, q);
-        if(cur != 0){
-          count += cur;
-          pq.addAll(q);
-        }
+        dfs(i, i);
       }
     }
     StringBuilder sb = new StringBuilder();
-    sb.append(count);
+    sb.append(pq.size());
     while(!pq.isEmpty()) {
       sb.append("\n").append(pq.poll());
     }
     System.out.println(sb);
   }
 
-  static int dfs(int idx, int dep, LinkedList<Integer> q){
-    if(deps[idx] != 0){
-      for(int i=0 ; i<deps[idx]-1 ; i++){
-        q.poll();
-      }
-      return dep - deps[idx];
+  static void dfs(int idx, int target){
+    if(arr[idx] == target){
+      pq.add(target);
+      return;
     }
-    if(visited[idx]) return 0;
     visited[idx] = true;
-    deps[idx] = dep;
-    q.add(idx);
-    return dfs(arr[idx], dep+1, q);
+    if(!visited[arr[idx]]) dfs(arr[idx], target);
+    visited[idx] = false;
   }
 
   static void input(BufferedReader br) throws Exception {
