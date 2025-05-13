@@ -1,77 +1,60 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-  public static int N;
-  public static int M;
+  public static final char FILED = '.', BA = '#', SH = 'o', WOOLF = 'v';
+  public static final int[] dx = {1,0,-1,0};
+  public static final int[] dy = {0,1,0,-1};
+  public static int N, M;
   public static char[][] map;
-  public static boolean[][] visit;
-  public static char[] d = new char[]{'.','o','v'};
-  public static int[] dx = new int[]{0,0, 1, -1};
-  public static int[] dy = new int[]{1,-1, 0, 0};
-  public static int shT;
-  public static int woT;
-  public static int shC;
-  public static int woC;
+  public static boolean[][] visited;
+  public static int countS = 0, countW = 0;
+  public static int resultS = 0, resultW = 0;
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
     pro();
   }
 
-  public static void pro(){
-    for(int i = 0 ; i < N ; i++){
-      for(int j = 0 ; j < M ; j++){
-        if(map[i][j] == '#') continue;
-        shC = 0;
-        woC = 0;
+  static void pro() {
+    for(int i = 0; i < N; i++) {
+      for(int j = 0; j < M; j++) {
+        if(visited[i][j]) continue;
+        if(map[i][j] == BA) continue;
         dfs(i, j);
-        if(shC > woC){
-          woT -= woC;
-        }else{
-          shT -= shC;
-        }
+        if(countS > countW) resultS += countS;
+        if(countS <= countW) resultW += countW;
+        countS = 0; countW = 0;
       }
     }
-    System.out.println(shT + " " + woT);
+    System.out.println(resultS + " " + resultW);
   }
 
-  public static void dfs(int cx, int cy){
-    if(visit[cx][cy]) return;
-    if(map[cx][cy] == '#') return;
-    visit[cx][cy] = true;
-    if(map[cx][cy] == 'o'){
-      shC++;
-    }else if(map[cx][cy] == 'v'){
-      woC++;
-    }
-    for(int i=0 ; i<4; i++){
-      int nx = cx + dx[i];
-      int ny = cy + dy[i];
-      if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
-      dfs(nx, ny);
+  static void dfs(int x, int y) {
+    if(x<0 || y<0 || x>=N || y>=M) return;
+    if(visited[x][y]) return;
+    if(map[x][y] == BA) return;
+
+    visited[x][y] = true;
+    if(map[x][y] == SH) countS++;
+    if(map[x][y] == WOOLF) countW++;
+
+    for(int i=0 ; i<4 ; i++){
+      dfs(x + dx[i], y + dy[i]);
     }
   }
 
-  public static void input(BufferedReader br) throws IOException{
+  static void input(BufferedReader br) throws Exception {
     StringTokenizer st = new StringTokenizer(br.readLine());
     N = Integer.parseInt(st.nextToken());
     M = Integer.parseInt(st.nextToken());
     map = new char[N][M];
-    visit = new boolean[N][M];
-    String s;
-    for(int i=0 ; i<N ; i++){
-       s = br.readLine();
-      for(int j=0 ; j<M ; j++){
-        char c = s.charAt(j);
-        map[i][j] = c;
-        if(c == 'v') {
-          woT++;
-        }else if(c == 'o'){
-          shT++;
-        }
-      }
+    visited = new boolean[N][M];
+
+    for (int i = 0; i < N; i++) {
+      st = new StringTokenizer(br.readLine());
+      map[i] = st.nextToken().toCharArray();
     }
   }
 }
