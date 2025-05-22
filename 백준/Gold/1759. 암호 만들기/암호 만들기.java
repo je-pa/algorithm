@@ -5,7 +5,7 @@ public class Main {
   public static int L, C;
   public static char[] arr;
   public static boolean[] check;
-  public static StringBuilder sb = new StringBuilder();
+  public static StringBuilder result = new StringBuilder();
   public static Set<Character> set = new HashSet<>();
 
   public static void main(String[] args) throws Exception {
@@ -19,19 +19,21 @@ public class Main {
     for(int i= 0; i<arr.length; i++) {
       if(set.contains(arr[i])) check[i] = true;
     }
-    dfs(arr, 0, "", 0, 0);
-    System.out.println(sb);
+    dfs(arr, 0, new StringBuilder(), 0, 0);
+    System.out.println(result);
   }
-  static void dfs(char[] arr, int idx, String str, int m, int z) {
-    if(str.length() == L){
-      if(m >= 1 && z >= 2) sb.append(str).append("\n");
+
+  static void dfs(char[] arr, int idx, StringBuilder sb, int m, int z) {
+    if(sb.length() == L){
+      if(m >= 1 && z >= 2) result.append(sb).append("\n");
       return;
     }
-    if(L - str.length() > C - idx){
+    if(L - sb.length() > C - idx){
       return;
     }
     for(int i = idx; i < C; i++) {
-      dfs(arr, i+1, str + arr[i], check[i] ? m+1 : m, check[i] ? z : z+1);
+      dfs(arr, i+1, sb.append(arr[i]), check[i] ? m+1 : m, check[i] ? z : z+1);
+      sb.setLength(sb.length()-1);
     }
   }
 
