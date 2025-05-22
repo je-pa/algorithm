@@ -1,69 +1,56 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-  public static int N;
-  public static int K;
-  public static ArrayList<Character> ml = new ArrayList<>();
-  public static ArrayList<Character> jl = new ArrayList<>();
-  public static TreeSet<String> result = new TreeSet<>();
-  public static char[] mo = {'a','e','i','o','u'};
+  public static int L, C;
+  public static char[] arr;
+  public static boolean[] check;
+  public static StringBuilder sb = new StringBuilder();
+  public static Set<Character> set = new HashSet<>();
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
-    dfs(0,0,0,0,0,"");
-    StringBuilder sb = new StringBuilder();
-    for(String s : result){
-      sb.append(s).append("\n");
+    pro();
+  }
+
+  static void pro()  {
+    Arrays.sort(arr);
+    for(int i= 0; i<arr.length; i++) {
+      if(set.contains(arr[i])) check[i] = true;
     }
+    dfs(arr, 0, "", 0, 0);
     System.out.println(sb);
   }
-  public static void input(BufferedReader br) throws Exception{
-    StringTokenizer st = new StringTokenizer(br.readLine());
-    N = Integer.parseInt(st.nextToken());
-    K = Integer.parseInt(st.nextToken());
-    st = new StringTokenizer(br.readLine());
-    for(int i = 0; i < K; i++){
-      char num = st.nextToken().charAt(0);
-      boolean isM = false;
-      for(char c : mo){
-        if(num == c){
-          ml.add(num);
-          isM = true;
-          break;
-        }
-      }
-      if(!isM){
-        jl.add(num);
-      }
-    }
-  }
-
-  public static void dfs(int mi, int ji, int dep, int mc, int jc, String s){
-    if(dep > N) return;
-    if(dep == N && mc > 0 && jc > 1){
-      PriorityQueue<Character> pq = new PriorityQueue<>();
-      for(int i = 0 ; i < s.length() ; i++){
-        pq.add(s.charAt(i));
-      }
-      StringBuilder sb = new StringBuilder();
-      while(!pq.isEmpty()){
-        sb.append(pq.poll());
-      }
-      result.add(sb.toString());
+  static void dfs(char[] arr, int idx, String str, int m, int z) {
+    if(str.length() == L){
+      if(m >= 1 && z >= 2) sb.append(str).append("\n");
       return;
     }
-    if(mi < ml.size()){
-      for(int i = mi ; i < ml.size() ; i++){
-        dfs(i+1, ji, dep+1, mc+1, jc, s+ml.get(i));
-      }
+    if(L - str.length() > C - idx){
+      return;
     }
-    if(ji < jl.size()){
-      for(int i = ji ; i < jl.size() ; i++){
-        dfs(mi, i+1, dep+1, mc, jc+1, s+jl.get(i));
-      }
+    for(int i = idx; i < C; i++) {
+      dfs(arr, i+1, str + arr[i], check[i] ? m+1 : m, check[i] ? z : z+1);
     }
-
   }
+
+  static void input(BufferedReader br) throws Exception {
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    L = Integer.parseInt(st.nextToken());
+    C = Integer.parseInt(st.nextToken());
+    set.add('a');
+    set.add('e');
+    set.add('i');
+    set.add('o');
+    set.add('u');
+
+    arr = new char[C];
+    check = new boolean[C];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < C; i++) {
+      arr[i] = st.nextToken().charAt(0);
+    }
+  }
+
 }
