@@ -1,45 +1,50 @@
 import java.util.*;
+import java.lang.*;
 import java.io.*;
 
 public class Main {
-  public static int N;
-  public static ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
-  public static ArrayList<ArrayList<Integer>> leafs = new ArrayList<>();
-  public static int turnCount = 0;
+  static int N;
+  static List<List<Integer>> lists = new ArrayList<>();
+  static boolean[] visited;
+  static int res = 0;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
-    findL(1, -1,0);
-    if(turnCount %2 == 0){
-      System.out.println("No");
-    }else{
-      System.out.println("Yes");
-    }
+    pro();
   }
-  public static void input(BufferedReader br) throws IOException{
+
+  static void pro() {
+    dfs(0, 1);
+    System.out.println(res % 2 == 0 ? "No" : "Yes");
+  }
+
+  static void dfs(int dep, int cur){
+    visited[cur] = true;
+    int count = 0;
+    for(int i : lists.get(cur)){
+      if(visited[i]) continue;
+      count++;
+      dfs(dep+1, i);
+    }
+    if(count == 0) res+= dep;
+  }
+
+  static void input(BufferedReader br) throws IOException {
     N = Integer.parseInt(br.readLine());
-    for(int i = 0; i <= N; i++){
+    StringTokenizer st;
+    visited = new boolean[N+1];
+    for (int i = 0; i <= N; i++) {
       lists.add(new ArrayList<>());
     }
-    for(int i=1; i<N; i++){
-      StringTokenizer st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < N-1; i++) {
+      st = new StringTokenizer(br.readLine());
       int a = Integer.parseInt(st.nextToken());
       int b = Integer.parseInt(st.nextToken());
       lists.get(a).add(b);
       lists.get(b).add(a);
     }
-  }
 
-  public static void findL(int num, int pre, int dep){
-    ArrayList<Integer> list = lists.get(num);
-    if(list.size() ==1 && num != 1){
-      turnCount += dep;
-      return;
-    }
-    for(int i : list){
-      if(pre == i) continue;
-      findL(i, num, dep+1);
-    }
+
   }
 }
