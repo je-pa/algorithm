@@ -1,50 +1,57 @@
-import java.util.*;
-import java.lang.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
-  static int N;
-  static List<List<Integer>> lists = new ArrayList<>();
+
+  static List<List<Integer>> tree;
   static boolean[] visited;
-  static int res = 0;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    input(br);
-    pro();
-  }
 
-  static void pro() {
-    dfs(0, 1);
-    System.out.println(res % 2 == 0 ? "No" : "Yes");
-  }
+    int n = Integer.parseInt(br.readLine());
 
-  static void dfs(int dep, int cur){
-    visited[cur] = true;
-    int count = 0;
-    for(int i : lists.get(cur)){
-      if(visited[i]) continue;
-      count++;
-      dfs(dep+1, i);
-    }
-    if(count == 0) res+= dep;
-  }
+    tree = new ArrayList<>();
 
-  static void input(BufferedReader br) throws IOException {
-    N = Integer.parseInt(br.readLine());
-    StringTokenizer st;
-    visited = new boolean[N+1];
-    for (int i = 0; i <= N; i++) {
-      lists.add(new ArrayList<>());
-    }
-    for (int i = 0; i < N-1; i++) {
-      st = new StringTokenizer(br.readLine());
-      int a = Integer.parseInt(st.nextToken());
-      int b = Integer.parseInt(st.nextToken());
-      lists.get(a).add(b);
-      lists.get(b).add(a);
+    for (int i = 0; i <= n; i++) {
+      tree.add(new ArrayList<>());
     }
 
+    for (int i = 0; i < n - 1; i++) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
 
+      int x = Integer.parseInt(st.nextToken());
+      int y = Integer.parseInt(st.nextToken());
+
+      tree.get(x).add(y);
+      tree.get(y).add(x);
+    }
+
+    visited = new boolean[n+1];
+
+    System.out.println(dfs(1, visited, 0) % 2 == 1 ? "Yes" : "No");
+  }
+
+  public static int dfs(int node, boolean[] visited, int cnt) {
+    visited[node] = true;
+    int sum = 0;
+    boolean isLeaf = true;
+
+    for (int next : tree.get(node)) {
+      if (!visited[next]) {
+        isLeaf = false;
+        sum += dfs(next, visited, cnt + 1);
+      }
+    }
+
+    if (isLeaf) {
+      return cnt;
+    }
+
+    return sum;
   }
 }
