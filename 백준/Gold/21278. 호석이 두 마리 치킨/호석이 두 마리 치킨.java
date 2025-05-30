@@ -30,7 +30,6 @@ public class Main {
     arr = new int[N+1][N+1];
     for(int i = 1; i <= N; i++) {
       for(int j = 1; j <= N; j++) {
-        if(i == j) continue;
         arr[i][j] = 101;
       }
     }
@@ -45,9 +44,11 @@ public class Main {
   static void pro(){
     for(int i = 1; i <= N; i++) {
       for(int j = 1; j <= N; j++) {
+        if(i == j) continue;
         for(int k = 1; k <= N; k++) {
-          if(arr[j][i] == 101 || arr[i][k] == 101) continue;
+          if(i== k || j == k) continue;
           arr[j][k] = Math.min(arr[j][k], arr[j][i] + arr[i][k]);
+          arr[k][j] = Math.min(arr[k][j], arr[k][i] + arr[i][j]);
         }
       }
     }
