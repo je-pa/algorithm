@@ -30,7 +30,8 @@ public class Main {
     arr = new int[N+1][N+1];
     for(int i = 1; i <= N; i++) {
       for(int j = 1; j <= N; j++) {
-        arr[i][j] = 101;
+        if(i == j) continue;
+        arr[i][j] = Integer.MAX_VALUE;
       }
     }
     for (int i = 0; i < M; i++) {
@@ -44,27 +45,25 @@ public class Main {
   static void pro(){
     for(int i = 1; i <= N; i++) {
       for(int j = 1; j <= N; j++) {
-        if(i == j) continue;
         for(int k = 1; k <= N; k++) {
-          if(i== k || j == k) continue;
+          if(arr[j][i] == Integer.MAX_VALUE || arr[i][k] == Integer.MAX_VALUE) continue;
           arr[j][k] = Math.min(arr[j][k], arr[j][i] + arr[i][k]);
-          arr[k][j] = Math.min(arr[k][j], arr[k][i] + arr[i][j]);
         }
       }
     }
     for(int i = 1; i <= N; i++) {
       for(int j = i+1; j <= N; j++) {
         int sum = 0;
-        if(i == j) continue;
         for(int k = 1; k <= N; k++) {
-          if(i == k || j == k) continue;
           sum+=Math.min(arr[i][k], arr[j][k]);
         }
         if(sum < result){
           result = sum;
           min = i;
           max = j;
+          continue;
         }
+        
       }
     }
   }
