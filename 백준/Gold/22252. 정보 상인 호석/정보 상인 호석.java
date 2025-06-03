@@ -1,59 +1,40 @@
-import java.io.*;
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 
 public class Main {
+  static Map<String, PriorityQueue<Integer>> map = new HashMap<>();
+  static long result = 0;
 
-  public static int N; // 최대 수
-  public static long result; // 최대 수
-  public static Map<String, PriorityQueue<Integer>> map = new HashMap<>(); // 층수
-
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    input(br);
+    int Q = Integer.parseInt(br.readLine());
+    for(int i=0 ; i<Q ; i++){
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      boolean buy = st.nextToken().equals("2");
+      String name = st.nextToken();
+      PriorityQueue<Integer> pq = map.getOrDefault(name, new PriorityQueue<>((x,y) -> Integer.compare(y,x)));
+      int k = Integer.parseInt(st.nextToken());
+      if(buy){
+        buyInfo(k, pq);
+      }else{
+        getInfo(name, k, pq, st);
+      }
+    }
     System.out.println(result);
   }
 
-  static void input(BufferedReader br) throws Exception {
-    StringTokenizer st = new StringTokenizer(br.readLine());
-    N = Integer.parseInt(st.nextToken());
-    for(int i=0 ; i<N ; i++){
-      st = new StringTokenizer(br.readLine());
-      int k = Integer.parseInt(st.nextToken());
-      if(k == 1){
-        input1(st);
-        continue;
-      }
-      if(k == 2){
-        input2(st);
-      }
-    }
-  }
-  static void input1(StringTokenizer st) {
-    String s = st.nextToken();
-    PriorityQueue<Integer> pq = map.getOrDefault(s, new PriorityQueue<>((x, y) -> y - x));
-    int k = Integer.parseInt(st.nextToken());
+  static void buyInfo(int k, PriorityQueue<Integer> pq) throws IOException{
     for(int i=0 ; i<k ; i++){
-      int n = Integer.parseInt(st.nextToken());
-      pq.add(n);
-//      System.out.println("1: "+s + " " + n);
+      if(pq.isEmpty()) break;
+      result += (long)pq.poll();
     }
-    map.put(s, pq);
   }
-  static void input2(StringTokenizer st) {
-    String s = st.nextToken();
-    int b = Integer.parseInt(st.nextToken());
-    pro(s, b);
-//    System.out.println(s + " " + count.get(s));
-  }
-  static void pro(String name, int b){
-    PriorityQueue<Integer> pq = map.get(name);
-      // if(pq != null) System.out.println("pro:" + name + " " + pq.size() + " " + b);
-    while((pq != null && !pq.isEmpty()) && b >0){
-      int n = pq.poll();
-//        System.out.println(n);
-      result += n;
-      b--;
+
+  static void getInfo(String name, int k, PriorityQueue<Integer> pq, StringTokenizer st) throws IOException{
+    for(int i=0 ; i<k ; i++){
+      pq.add(Integer.parseInt(st.nextToken()));
     }
+    map.put(name, pq);
   }
 }
-// 18 18 8
