@@ -1,65 +1,63 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.*;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
 
 public class Main {
+  static int N, X;
+  static int[] xs;
 
-  public static int N;
-  public static int X;
-  public static int result;
-  public static int[] arr;
-  public static PriorityQueue<Integer> pq;
-//  public static int[] check = new int[2_000_001];
-  public static Map<Integer,Integer> map = new HashMap<>();
-  public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    input(br);
-    pro();
-    System.out.println(result);
+  public static void pro() {
+    int l = 1;
+    int r = N;
+    while(l<=r){
+      int mid = (l + r)/2;
+
+      if(isPossible(mid)){
+        r = mid - 1;
+      }else{
+        l = mid + 1;
+      }
+    }
+    System.out.println(l);
   }
 
-  static void input(BufferedReader br) throws Exception {
+  public static boolean isPossible(int n) {
+    Queue<Integer> pq = new PriorityQueue<>((x1, x2) -> x1 - x2);
+    for (int i = 0; i < n; i++) {
+      pq.offer(xs[i]);
+    }
+
+    for (int i = n; i < N; i++) {
+      int startTime = pq.poll();
+      int endTime = startTime + xs[i];
+      if (endTime > X) {
+        return false;
+      }
+      pq.offer(endTime);
+    }
+    return true;
+  }
+
+  public static void input(BufferedReader br) throws IOException {
     StringTokenizer st = new StringTokenizer(br.readLine());
     N = Integer.parseInt(st.nextToken());
     X = Integer.parseInt(st.nextToken());
-    arr = new int[N];
+    xs = new int[N];
     st = new StringTokenizer(br.readLine());
-    for(int i = 0; i < N; i++) {
-      int a = Integer.parseInt(st.nextToken());
-      arr[i] = a;
+    for(int i = 0; i < N; i++){
+      xs[i] = Integer.parseInt(st.nextToken());
     }
   }
 
-  static void pro(){
-    int l = 1;
-    int r = Integer.MAX_VALUE;
-    while(l <= r){
-      pq = new PriorityQueue<>();
-      int mid = (l/2 + r/2) ;
-      boolean flag = false;
-      for(int i = 0 ; i<N ; i++){
-        int k = arr[i];
-        if(pq.size() < mid){
-//          System.out.println(mid);
-          pq.add(k);
-        }else{
-//          System.out.println(mid);
-          int cur = pq.poll();
-          int next = cur + k;
-          if(next > X){
-            flag = true;
-            break;
-          }
-          pq.add(next);
-        }
-
-      }
-
-      if(flag){
-        l = mid + 1;
-      }else{
-        r = mid - 1;
-      }
-    }
-    result = l;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    input(br);
+    pro();
   }
 }
+
