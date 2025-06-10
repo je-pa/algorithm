@@ -29,7 +29,7 @@ public class Main {
   public static boolean isPossible(int n) {
     Queue<Integer> pq = new PriorityQueue<>((x1, x2) -> x1 - x2);
     for (int i = 0; i < n; i++) {
-      pq.offer(xs[i]);
+      pq.add(xs[i]);
     }
 
     for (int i = n; i < N; i++) {
@@ -38,7 +38,7 @@ public class Main {
       if (endTime > X) {
         return false;
       }
-      pq.offer(endTime);
+      pq.add(endTime);
     }
     return true;
   }
