@@ -5,13 +5,23 @@ class Solution {
         int result = 0;
         int curIdx = 0;
         for(int i=1 ; i<=order.length ; i++){
-            st.push(i);
+            if(order[curIdx] == i){
+                result++;
+                curIdx++;
+                continue;
+            }
             while(!st.isEmpty() && curIdx < order.length && st.peek() == order[curIdx]){
                 result++;
                 curIdx++;
                 st.pop();
             }
+            st.push(i);
             
+        }
+        while(!st.isEmpty() && curIdx < order.length && st.peek() == order[curIdx]){
+            result++;
+            curIdx++;
+            st.pop();
         }
         return result;
     }
