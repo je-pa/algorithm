@@ -1,66 +1,61 @@
-import java.util.*;
- 
-public class Main {    
- 
-    static ArrayList<Node>[] list;
-    static boolean[] visited;
-    static int max = 0;
-    static int node;
-    
-    public static void main(String args[]) {
-        Scanner scan = new Scanner(System.in);
-        
-        int n = scan.nextInt();
-        list = new ArrayList[n + 1]; 
-        for(int i = 1; i < n + 1; i++) {
-            list[i] = new ArrayList<>();
-        }
-        
-        for(int i = 0; i < n; i++) {
-            int s = scan.nextInt();
-            while(true) {
-                int e = scan.nextInt();
-                if(e == -1) break;
-                int cost = scan.nextInt();
-                list[s].add(new Node(e, cost));
-            }
-        }
-        
-        //임의의 노드(1)에서 부터 가장 먼 노드를 찾는다. 이때 찾은 노드를 node에 저장한다.
-        visited = new boolean[n + 1];
-        dfs(1, 0);
-        
-        //node에서 부터 가장 먼 노트까지의 거리를 구한다.
-        visited = new boolean[n + 1];
-        dfs(node, 0);
-        
-        System.out.println(max);
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.StringTokenizer;
+
+
+public class Main {
+  static int N;
+  static List<List<int[]>> lists = new ArrayList<List<int[]>>();
+  static int maxLen = 0;
+  static int farNode = 0;
+  static boolean[] visited;
+
+  public static void pro() {
+    visited = new boolean[N+1];
+    dfs(1, 0);
+    visited = new boolean[N+1];
+    dfs(farNode, 0);
+    System.out.println(maxLen);
+  }
+
+  static void dfs(int cur, int len){
+    if(visited[cur]) return;
+    visited[cur] = true;
+    if(len > maxLen){
+      maxLen = len;
+      farNode = cur;
     }
-    
-    public static void dfs(int x, int len) {
-        if(len > max) {
-            max = len;
-            node = x;
-        }
-        visited[x] = true;
-        
-        for(int i = 0; i < list[x].size(); i++) {
-            Node n = list[x].get(i);
-            if(visited[n.e] == false) {
-                dfs(n.e, n.cost + len);
-                visited[n.e] = true;
-            }
-        }
-        
+    for(int[] arr : lists.get(cur)){
+      dfs(arr[0], len + arr[1]);
     }
-    
-    public static class Node {
-        int e;
-        int cost;
-        
-        public Node(int e, int cost) {
-            this.e = e;
-            this.cost = cost;
-        }
+  }
+
+  public static void input(BufferedReader br) throws IOException {
+    N = Integer.parseInt(br.readLine());
+    for (int i = 0; i <= N; i++) {
+      lists.add(new ArrayList<>());
     }
+    for (int i = 0; i < N; i++) {
+      StringTokenizer st = new StringTokenizer(br.readLine());
+      int node = Integer.parseInt(st.nextToken());
+      while(true){
+        int a = Integer.parseInt(st.nextToken());
+        if(a == -1) break;
+        int len = Integer.parseInt(st.nextToken());
+        lists.get(node).add(new int[]{a,len});
+      }
+    }
+  }
+
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    input(br);
+    pro();
+  }
 }
+
