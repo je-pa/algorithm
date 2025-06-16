@@ -10,47 +10,44 @@ public class Main {
   static int[][] map;
   static boolean[][] visited;
   static int min = Integer.MAX_VALUE;
-  static int countLand = 0;
   static int[] dx = {1,-1,0,0};
   static int[] dy = {0,0,1,-1};
 
-  public static void print(){
-    for(int i=0;i<N;i++){
-      for(int j=0;j<N;j++){
-        System.out.print(map[i][j]+" ");
-      }
-      System.out.println();
-    }
-  }
   public static void pro() {
     numbering();
-    for(int i=1 ; i<countLand ; i++){
-      bfs(i);
+    for(int i=0 ; i<N ; i++){
+      for(int j=0 ; j<N ; j++){
+        if(map[i][j] == 0) continue;
+        boolean go = false;
+        for(int k=0 ; k<4 ; k++){
+          int nx = i + dx[k];
+          int ny = j + dy[k];
+          if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+          if(map[i][j] == map[nx][ny]) continue;
+          go = true;
+          break;
+        }
+        if(!go) continue;
+        bfs(i,j);
+      }
     }
-
     System.out.println(min);
   }
 
-  public static void bfs(int num){
+  public static void bfs(int x, int y){
     visited = new boolean[N][N];
     LinkedList<int[]> list = new LinkedList<>();
-
-    for(int i=0 ; i<N ; i++){
-      for(int j=0 ; j<N ; j++){
-        if(map[i][j] != num) continue;
-        list.add(new int[]{i,j,0});
-      }
-    }
-
+    list.add(new int[]{x, y, 0});
+    int startNum = map[x][y];
     while(!list.isEmpty()) {
       int[] cur = list.remove();
       int cx = cur[0];
       int cy = cur[1];
       int cd = cur[2];
       if(cx < 0 || cy < 0 || cx >= N || cy >= N) continue;
-      if(visited[cx][cy] || map[cx][cy] == -1) continue;
+      if(visited[cx][cy]) continue;
       visited[cx][cy] = true;
-      if(map[cx][cy] != num && map[cx][cy] != 0 && map[cx][cy] != -1) {
+      if(map[cx][cy] != startNum && map[cx][cy] != 0) {
         min = Math.min(min, cd-1);
         return;
       }
@@ -66,12 +63,12 @@ public class Main {
 
   public static void numbering(){
     visited = new boolean[N][N];
-    countLand = 1;
+    int num = 1;
     for(int i=0 ; i<N ; i++){
       for(int j=0 ; j<N ; j++){
-        if(map[i][j] > -1 || visited[i][j]) continue;
-        numberingBfs(countLand, i, j);
-        countLand++;
+        if(map[i][j] != -1) continue;
+        numberingBfs(num, i, j);
+        num++;
       }
     }
   }
@@ -82,16 +79,16 @@ public class Main {
       int[] cur = list.remove();
       int cx = cur[0];
       int cy = cur[1];
-      if(map[cx][cy] > -1) continue;
+      if(cx < 0 || cy < 0 || cx >= N || cy >= N) continue;
+      if(map[cx][cy] != -1) continue;
       if(visited[cx][cy]) continue;
       visited[cx][cy] = true;
+      map[cx][cy] = num;
 
       for(int i = 0; i < dx.length; i++) {
         int nx = cx + dx[i];
         int ny = cy + dy[i];
-        if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
         list.add(new int[]{nx, ny});
-        if(map[nx][ny] == 0) map[cx][cy] = num;
       }
     }
   }
