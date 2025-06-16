@@ -52,6 +52,7 @@ public class Main {
       visited[cx][cy] = true;
       if(map[cx][cy] != num && map[cx][cy] != 0 && map[cx][cy] != -1) {
         min = Math.min(min, cd-1);
+        return;
       }
 
       for(int i = 0; i < dx.length; i++) {
