@@ -46,10 +46,10 @@ public class Main {
     int cp = find(c);
 
     if(bp < cp){
-      parent[cp] = bp;
+      parent[parent[c]] = bp;
       return;
     }
-    parent[bp] = cp;
+    parent[parent[b]] = cp;
   }
   static int find(int x){
     if(parent[x] == x) return x;
