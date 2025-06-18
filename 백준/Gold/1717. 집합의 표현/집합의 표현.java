@@ -14,6 +14,7 @@ public class Main {
     N = Integer.parseInt(st.nextToken());
     M = Integer.parseInt(st.nextToken());
     parent = new int[N+1];
+    StringBuilder sb = new StringBuilder();
     for(int i=1;i<=N;i++){
       parent[i] = i;
     }
@@ -27,9 +28,11 @@ public class Main {
         union(b,c);
         continue;
       }
-      System.out.println(check(b,c) ? "YES" : "NO");
+      sb.append(check(b,c) ? "YES" : "NO").append("\n");
     }
+    System.out.println(sb);
   }
+
 
   static boolean check(int b, int c){
     int bp = find(b);
