@@ -27,7 +27,7 @@ public class Main {
     List<Integer> list = new ArrayList<>();
     for(int i=0 ; i<N ; i++) {
       for(int j=0 ; j<N ; j++) {
-        if(visited[i][j]) continue;
+        if(visited[i][j] || !cow[i][j]) continue;
         list.add(bfs(i,j));
       }
     }
@@ -36,7 +36,7 @@ public class Main {
       for(int j=i+1 ; j<list.size() ; j++) {
         count += list.get(i)*list.get(j);
       }
-    }
+    } 
     System.out.println(count);
   }
 
