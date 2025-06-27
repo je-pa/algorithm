@@ -19,8 +19,8 @@ class Solution {
         String cs = s.substring(idx, idx+cut);
         if(before.equals(cs)){
             return dfs(s, cut, idx+cut, curLen, count+1, before, slen,cur);
-        }else{
-            return dfs(s, cut, idx+cut, curLen + cut, 1, cs, slen,cur+ (count<=1?"":count) + before);
         }
+        return dfs(s, cut, idx+cut, curLen + cut, 1, cs, slen,cur+ (count<=1?"":count) + before);
+        
     }
 }
