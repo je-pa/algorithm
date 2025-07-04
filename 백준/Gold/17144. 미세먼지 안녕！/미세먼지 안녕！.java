@@ -54,7 +54,7 @@ public class Main {
   }
 
   private static void spread(int x, int y, int[][] old, int[][] newArr){
-    if(map[x][y] == -1) return;
+    if(old[x][y] <= 0) return;
     if(old[x][y] > 0 && old[x][y] <5){
       newArr[x][y] += old[x][y];
       return;
