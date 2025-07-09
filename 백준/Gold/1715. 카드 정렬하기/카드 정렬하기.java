@@ -19,8 +19,8 @@ public class Main {
     }
     Integer sum = 0;
     while(true) {
-      int a = pq.isEmpty() ? 0 : pq.poll();
-      int b = pq.isEmpty() ? 0 : pq.poll();
+      int a = pq.poll();
+      int b = pq.poll();
       int sumab = a + b;
       sum += sumab;
       if(pq.isEmpty()) break;
