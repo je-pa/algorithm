@@ -1,43 +1,74 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner scann = new Scanner(System.in);
-		int N = scann.nextInt();
-		Node[] arr = new Node[N];
-		long sum=0;
-		long cnt=0;
-		for(int i=0;i<N;i++) {
-			long x=scann.nextLong();
-			long a=scann.nextLong();
-			arr[i]=new Node(x,a);
-			cnt+=arr[i].a;
+	static int N;
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+
+		N = Integer.parseInt(br.readLine());
+		int ans = 0;
+		long aSum = 0L;
+
+		Queue<Town> queue = new PriorityQueue<>();
+
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			int x = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			aSum += (long) a;
+
+			queue.offer(new Town(x, a));
 		}
-		Arrays.sort(arr, new Comparator<Node>() {
-			@Override
-			public int compare(Node n1, Node n2) {
-				if(n1.x==n2.x) return (int)(n1.a-n2.a);
-				return (int)(n1.x-n2.x);
+
+		if (N == 1) {
+			ans = queue.poll().x;
+		} else {
+
+			long sum = 0L;
+
+			for (int i = 0; i < N; i++) {
+				Town now = queue.poll();
+
+				sum += (long) now.a;
+
+				if (sum >= (aSum + 1) / 2) {
+
+					ans = now.x;
+					break;
+				}
+
 			}
-		});
-		for(int i=0;i<N;i++) {
-			sum+=arr[i].a;
-			if(sum>=(cnt+1)/2) {
-				System.out.println(arr[i].x);
-				break;
+		}
+
+		System.out.println(ans);
+
+	}
+
+	static class Town implements Comparable<Town> {
+		int x, a;
+
+		public Town(int x, int a) {
+			this.x = x;
+			this.a = a;
+		}
+
+		@Override
+		public int compareTo(Town o) {
+
+			if (this.x == o.x) {
+				return this.a - o.a;
+			} else {
+				return this.x - o.x;
 			}
 		}
 	}
-	public static class Node{
-		long x;
-		long a;
-		public Node(long x2, long a2) {
-			super();
-			this.x = x2;
-			this.a = a2;
-		}
-	}
+
 }
