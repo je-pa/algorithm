@@ -25,17 +25,27 @@ public class Main {
       int x = Integer.parseInt(st.nextToken());
       int y = Integer.parseInt(st.nextToken());
 
-      int px = find(x);
-      int py = find(y);
-      if(px == py) {
-        System.out.println(i+1);
+      if (union(x, y)) {
+        System.out.println(i + 1);
         return;
-      }else {
-        union(px,py);
       }
     }
 
     System.out.println(0);
+  }
+
+  private static boolean union(int x, int y) {
+    int px = find(x);
+    int py = find(y);
+    if(px == py) {
+      return true;
+    }
+    if(px < py) {
+      parent[py] = px;
+    }else {
+      parent[px] = py;
+    }
+    return false;
   }
 
   static int find(int x){
@@ -43,15 +53,5 @@ public class Main {
     return parent[x] = find(parent[x]);
   }
 
-  static void union(int x, int y) {
-    x = find(x);
-    y = find(y);
-
-    if(x < y) {
-      parent[y] = x;
-    }else {
-      parent[x] = y;
-    }
-  }
 }
 
