@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -13,7 +11,6 @@ public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     input(br);
-    pro();
   }
   private static void input(BufferedReader br) throws IOException {
     StringTokenizer st = new StringTokenizer(br.readLine());
@@ -28,25 +25,21 @@ public class Main {
       int x = Integer.parseInt(st.nextToken());
       int y = Integer.parseInt(st.nextToken());
 
-      if(find(x)==find(y)) {
+      int px = find(x);
+      int py = find(y);
+      if(px == py) {
         System.out.println(i+1);
         return;
       }else {
-        union(x,y);
+        union(px,py);
       }
     }
 
     System.out.println(0);
   }
 
-  private static void pro() {
-
-  }
-
-  static int find(int x) {
-    if(x == parent[x]) {
-      return x;
-    }
+  static int find(int x){
+    if(parent[x] == x) return x;
     return parent[x] = find(parent[x]);
   }
 
