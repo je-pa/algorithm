@@ -23,7 +23,8 @@ public class Main {
         }
       }
     }
-    dfs(K, 0, 0);
+      visited[K] = true;
+    dfs(K, 1, 0);
     System.out.println(result);
   }
 
