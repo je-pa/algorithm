@@ -1,34 +1,33 @@
 import java.util.*;
+
 class Solution {
-    boolean[] visited;
+    Set<Integer> set = new HashSet<>();
     String[] users;
     String[] bans;
-    Set<String> set = new HashSet<>();
+    int n;
+
     public int solution(String[] user_id, String[] banned_id) {
-        visited = new boolean[user_id.length];
         users = user_id;
         bans = banned_id;
-        dfs(0);
-    
+        n = user_id.length;
+
+        dfs(0, 0);  // 시작 인덱스, 방문 상태(비트마스크)
+
         return set.size();
     }
-    void dfs(int idx){
-        if(idx == bans.length){
-            StringBuilder sb = new StringBuilder();
-            for(int i=0 ; i<visited.length ; i++){
-                if(visited[i]) sb.append(i);
-            }
-            set.add(sb.toString());
+
+    void dfs(int idx, int mask) {
+        if (idx == bans.length) {
+            set.add(mask);  // 현재 조합을 비트마스크로 저장
             return;
         }
+
         String reg = "^" + bans[idx].replace("*", ".") + "$";
-        for(int i=0 ; i<users.length ; i++){
-            if(visited[i]) continue;
-            if(!users[i].matches(reg)) continue;
-            visited[i] = true;
-            dfs(idx+1);
-            visited[i] = false;
+        for (int i = 0; i < n; i++) {
+            if ((mask & (1 << i)) != 0) continue;             // 이미 선택된 user
+            if (!users[i].matches(reg)) continue;             // 패턴 안 맞음
+
+            dfs(idx + 1, mask | (1 << i));  // i번째 비트 ON
         }
     }
-    
 }
